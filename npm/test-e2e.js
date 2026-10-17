@@ -9,7 +9,8 @@ async function main() {
   console.log('Running Pure JavaScript SDK End-to-End Test Suite');
   console.log('======================================================\n');
 
-  const client = new TezzAuthClient({ baseUrl: 'http://localhost:3000' });
+  const baseUrl = process.env.TEZZ_AUTH_URL || 'http://localhost:3000';
+  const client = new TezzAuthClient({ baseUrl });
   const timestamp = Date.now();
   const testEmail = `js.sdk.${timestamp}@tezz.com`;
   const testPhone = `+9199${String(timestamp).slice(-8)}`;

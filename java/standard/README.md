@@ -24,11 +24,20 @@ Official Java 11+ SDK for Tezz Auth (`account.tezzcorp.com`).
 
 ## Quick Start
 
+The SDK comes with `https://account.tezzcorp.com` pre-configured out of the box. You do not need to configure any URL.
+
 ```java
 import com.tezz.auth.TezzAuthClient;
 
-TezzAuthClient client = new TezzAuthClient("http://localhost:3000"); // Production: https://account.tezzcorp.com
+// Automatically connects to https://account.tezzcorp.com
+TezzAuthClient client = new TezzAuthClient();
 ```
+
+> **Optional Custom Endpoint**:
+> If you are self-hosting or testing locally, you can pass a custom `baseUrl`:
+> ```java
+> TezzAuthClient client = new TezzAuthClient("https://auth.yourdomain.com");
+> ```
 
 ---
 
@@ -51,7 +60,7 @@ import com.tezz.auth.exception.TezzRateLimitException;
 import com.tezz.auth.exception.TezzValidationException;
 import com.tezz.auth.exception.TezzAuthException;
 
-TezzAuthClient client = new TezzAuthClient("http://localhost:3000");
+TezzAuthClient client = new TezzAuthClient();
 
 try {
     AuthResponse reg = client.register(

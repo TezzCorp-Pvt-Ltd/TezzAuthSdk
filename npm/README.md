@@ -21,23 +21,28 @@ npm install @tezz/auth-sdk
 
 ## Quick Start
 
+The SDK comes with `https://account.tezzcorp.com` pre-configured out of the box. You do not need to configure any URL.
+
 ### CommonJS
 ```javascript
 const { TezzAuthClient } = require('@tezz/auth-sdk');
 
-const client = new TezzAuthClient({
-  baseUrl: 'http://localhost:3000', // Production: 'https://account.tezzcorp.com'
-  timeout: 10000,
-});
+// Automatically connects to https://account.tezzcorp.com
+const client = new TezzAuthClient();
 ```
 
 ### ESM
 ```javascript
 import { TezzAuthClient } from '@tezz/auth-sdk';
 
-const client = new TezzAuthClient({ baseUrl: 'http://localhost:3000' });
+const client = new TezzAuthClient();
 ```
 
+> **Optional Custom Endpoint**:
+> If you are self-hosting or testing locally, you can optionally override `baseUrl`:
+> ```javascript
+> const client = new TezzAuthClient({ baseUrl: 'https://auth.yourdomain.com' });
+> ```
 ---
 
 ## Complete Usage Examples

@@ -8,12 +8,12 @@ const { TezzAuthError, TezzRateLimitError, TezzValidationError, TezzConflictErro
 class TezzAuthClient {
   /**
    * @param {Object} [options]
-   * @param {string} [options.baseUrl='http://localhost:3000'] - API server URL
+   * @param {string} [options.baseUrl='https://account.tezzcorp.com'] - API server URL
    * @param {number} [options.timeout=10000] - Timeout in milliseconds
    * @param {number} [options.keyCacheTtl=3600000] - Public key cache TTL (default 1 hr)
    */
   constructor(options = {}) {
-    this.baseUrl = (options.baseUrl || 'http://localhost:3000').replace(/\/$/, '');
+    this.baseUrl = (options.baseUrl || 'https://account.tezzcorp.com').replace(/\/$/, '');
     this.timeout = options.timeout || 10000;
     this.keyCacheTtl = options.keyCacheTtl || 3600000;
 

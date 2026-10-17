@@ -13,7 +13,15 @@ public class Program
         Console.WriteLine("Running .NET SDK End-to-End Test Suite");
         Console.WriteLine("======================================================\n");
 
-        using var client = new TezzAuthClient("http://localhost:3000");
+        if (TezzAuthClient.DefaultBaseUrl != "https://account.tezzcorp.com")
+        {
+            throw new Exception("DefaultBaseUrl mismatch in TezzAuthClient");
+        }
+
+        string testUrl = Environment.GetEnvironmentVariable("TEZZ_AUTH_URL") ?? "http://localhost:3000";
+        using var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Add("X-Forwarded-For", $"198.51.100.{new Random().Next(10, 250)}");
+        using var client = new TezzAuthClient(testUrl, httpClient);
         long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         string testEmail = $"dotnet.sdk.{timestamp}@tezz.com";
         string testPhone = $"+9194{timestamp.ToString()[^8..]}";

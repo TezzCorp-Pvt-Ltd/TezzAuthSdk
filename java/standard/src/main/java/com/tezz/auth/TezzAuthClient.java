@@ -14,6 +14,8 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 
 public class TezzAuthClient {
+    public static final String DEFAULT_BASE_URL = "https://account.tezzcorp.com";
+
     private final String baseUrl;
     private final HttpClient httpClient;
     private final Duration timeout;
@@ -21,6 +23,10 @@ public class TezzAuthClient {
     private String cachedPublicKey;
     private long keyExpiresAt = 0;
     private final long keyTtlMs = 3600000; // 1 hour
+
+    public TezzAuthClient() {
+        this(DEFAULT_BASE_URL, Duration.ofSeconds(10));
+    }
 
     public TezzAuthClient(String baseUrl) {
         this(baseUrl, Duration.ofSeconds(10));

@@ -1,5 +1,5 @@
 /**
- * TypeScript Type Definitions for @tezzcorp/auth-sdk
+ * TypeScript Type Definitions for @tezz/auth-sdk
  */
 
 export interface TezzClientOptions {

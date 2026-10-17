@@ -21,8 +21,10 @@ public class TezzAuthClient : IDisposable
     private DateTime _keyExpiresAt = DateTime.MinValue;
     private readonly SemaphoreSlim _keyLock = new(1, 1);
 
+    public const string DefaultBaseUrl = "https://account.tezzcorp.com";
+
     public TezzAuthClient(
-        string baseUrl = "http://localhost:3000",
+        string baseUrl = DefaultBaseUrl,
         HttpClient? httpClient = null,
         TimeSpan? timeout = null,
         TimeSpan? keyCacheTtl = null)

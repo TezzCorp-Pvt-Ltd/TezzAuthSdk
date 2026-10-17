@@ -39,13 +39,20 @@ Ensure Internet permission is granted in `AndroidManifest.xml`:
 
 ## Quick Start
 
+The SDK comes with `https://account.tezzcorp.com` pre-configured out of the box. You do not need to configure any URL.
+
 ```java
 import com.tezz.auth.android.TezzAuthClient;
 
-// Use 10.0.2.2 for Android Emulator connecting to host localhost:3000
-// Production: https://account.tezzcorp.com
-TezzAuthClient client = new TezzAuthClient("http://10.0.2.2:3000");
+// Automatically connects to https://account.tezzcorp.com
+TezzAuthClient client = new TezzAuthClient();
 ```
+
+> **Optional Custom Endpoint**:
+> If you are self-hosting or testing in an Android Emulator against a local host server, you can pass a custom `baseUrl`:
+> ```java
+> TezzAuthClient client = new TezzAuthClient("http://10.0.2.2:3000");
+> ```
 
 ---
 

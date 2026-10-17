@@ -10,11 +10,13 @@ from .models import AuthResponse
 
 
 class TezzAuthClient:
-    """Client for connecting to TezzCorp Identity & Authentication System."""
+    """Client for connecting to Tezz Identity & Authentication System."""
+
+    DEFAULT_BASE_URL: str = "https://account.tezzcorp.com"
 
     def __init__(
         self,
-        base_url: str = "http://localhost:3000",
+        base_url: str = DEFAULT_BASE_URL,
         timeout: int = 10,
         key_ttl: int = 3600,
     ) -> None:

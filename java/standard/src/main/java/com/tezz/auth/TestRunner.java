@@ -10,7 +10,12 @@ public class TestRunner {
         System.out.println("Running Java SDK End-to-End Test Suite");
         System.out.println("======================================================\n");
 
-        TezzAuthClient client = new TezzAuthClient("http://localhost:3000");
+        if (!TezzAuthClient.DEFAULT_BASE_URL.equals("https://account.tezzcorp.com")) {
+            throw new RuntimeException("DEFAULT_BASE_URL mismatch in TezzAuthClient");
+        }
+
+        String testUrl = System.getenv("TEZZ_AUTH_URL") != null ? System.getenv("TEZZ_AUTH_URL") : "http://localhost:3000";
+        TezzAuthClient client = new TezzAuthClient(testUrl);
         long timestamp = System.currentTimeMillis();
         String testEmail = "java.sdk." + timestamp + "@tezz.com";
         String testPhone = "+9196" + String.valueOf(timestamp).substring(String.valueOf(timestamp).length() - 8);

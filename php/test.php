@@ -23,8 +23,13 @@ echo "\n======================================================\n";
 echo "Running PHP Composer SDK End-to-End Test Suite\n";
 echo "======================================================\n\n";
 
+if (TezzAuthClient::DEFAULT_BASE_URL !== 'https://account.tezzcorp.com') {
+    throw new Exception("DEFAULT_BASE_URL does not match expected domain");
+}
+
+$baseUrl = getenv('TEZZ_AUTH_URL') ?: 'http://localhost:3000';
 $client = new TezzAuthClient([
-    'base_url' => 'http://localhost:3000',
+    'base_url' => $baseUrl,
     'headers'  => ['X-Forwarded-For: 198.51.100.42'],
 ]);
 $timestamp = time();

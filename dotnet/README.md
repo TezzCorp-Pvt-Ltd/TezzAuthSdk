@@ -26,20 +26,29 @@ Install-Package Tezz.Auth
 
 ## Quick Start
 
+The SDK comes with `https://account.tezzcorp.com` pre-configured out of the box. You do not need to configure any URL.
+
 ### 1. Direct Instantiation
 
 ```csharp
 using Tezz.Auth;
 
-using var client = new TezzAuthClient("http://localhost:3000"); // Production: https://account.tezzcorp.com
+// Automatically connects to https://account.tezzcorp.com
+using var client = new TezzAuthClient();
 ```
+
+> **Optional Custom Endpoint**:
+> If you are self-hosting or testing locally, you can pass a custom `baseUrl`:
+> ```csharp
+> using var client = new TezzAuthClient("https://auth.yourdomain.com");
+> ```
 
 ### 2. ASP.NET Core Dependency Injection
 
 In `Program.cs`:
 ```csharp
 builder.Services.AddSingleton<TezzAuthClient>(sp =>
-    new TezzAuthClient(builder.Configuration["TezzAuth:BaseUrl"] ?? "https://account.tezzcorp.com"));
+    new TezzAuthClient(builder.Configuration["TezzAuth:BaseUrl"] ?? TezzAuthClient.DefaultBaseUrl));
 ```
 
 ---

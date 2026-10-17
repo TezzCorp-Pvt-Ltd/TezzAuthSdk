@@ -29,14 +29,22 @@ composer require tezz/auth-sdk
 
 ## Quick Start
 
+The SDK comes with `https://account.tezzcorp.com` pre-configured out of the box. You do not need to configure any URL.
+
 ```php
 use Tezz\Auth\TezzAuthClient;
 
-$client = new TezzAuthClient([
-    'base_url' => 'http://localhost:3000', // Production: https://account.tezzcorp.com
-    'timeout'  => 10,
-]);
+// Automatically connects to https://account.tezzcorp.com
+$client = new TezzAuthClient();
 ```
+
+> **Optional Custom Endpoint**:
+> If you are self-hosting or testing locally, you can optionally override `base_url`:
+> ```php
+> $client = new TezzAuthClient([
+>     'base_url' => 'https://auth.yourdomain.com',
+> ]);
+> ```
 
 ---
 

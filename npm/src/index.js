@@ -1,5 +1,5 @@
 /**
- * @tezzcorp/auth-sdk - CommonJS Entry Point
+ * @tezz/auth-sdk - CommonJS Entry Point
  */
 
 const { TezzAuthClient } = require('./client');

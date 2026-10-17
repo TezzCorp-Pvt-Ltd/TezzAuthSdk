@@ -1,5 +1,5 @@
 /**
- * @tezzcorp/auth-sdk - ESM Entry Point
+ * @tezz/auth-sdk - ESM Entry Point
  */
 
 import { createRequire } from 'module';

@@ -21,11 +21,20 @@ pip install tezz-auth
 
 ## Quick Start
 
+The SDK comes with `https://account.tezzcorp.com` pre-configured out of the box. You do not need to configure any URL.
+
 ```python
 from tezz_auth import TezzAuthClient
 
-client = TezzAuthClient(base_url="http://localhost:3000")  # Or https://account.tezzcorp.com
+# Automatically connects to https://account.tezzcorp.com
+client = TezzAuthClient()
 ```
+
+> **Optional Custom Endpoint**:
+> If you are self-hosting or testing locally, you can optionally override `base_url`:
+> ```python
+> client = TezzAuthClient(base_url="https://auth.yourdomain.com")
+> ```
 
 ---
 

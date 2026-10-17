@@ -6,6 +6,8 @@ use Tezz\Auth\Exceptions\TezzAuthException;
 
 class TezzAuthClient
 {
+    public const DEFAULT_BASE_URL = 'https://account.tezzcorp.com';
+
     protected HttpClient $http;
     protected ?string $cachedPublicKey = null;
     protected int $keyExpiresAt = 0;
@@ -16,7 +18,7 @@ class TezzAuthClient
      */
     public function __construct(array $config = [])
     {
-        $baseUrl = $config['base_url'] ?? 'http://localhost:3000';
+        $baseUrl = $config['base_url'] ?? self::DEFAULT_BASE_URL;
         $timeout = $config['timeout'] ?? 10;
         $this->keyTtl = $config['key_ttl'] ?? 3600;
         $headers = $config['headers'] ?? [];

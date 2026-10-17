@@ -17,6 +17,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class TezzAuthClient {
+    public static final String DEFAULT_BASE_URL = "https://account.tezzcorp.com";
+
     private final String baseUrl;
     private final OkHttpClient okHttpClient;
     private final Gson gson;
@@ -26,6 +28,10 @@ public class TezzAuthClient {
     private String cachedPublicKey;
     private long keyExpiresAt = 0;
     private final long keyTtlMs = 3600000; // 1 hour
+
+    public TezzAuthClient() {
+        this(DEFAULT_BASE_URL);
+    }
 
     public TezzAuthClient(String baseUrl) {
         this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;

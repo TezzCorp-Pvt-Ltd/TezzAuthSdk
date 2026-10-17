@@ -7,7 +7,8 @@ const { TezzAuthClient, rsaEncrypt } = require('./src/index');
 async function run() {
   console.log('[TEST] Testing Pure JS SDK...');
 
-  const client = new TezzAuthClient({ baseUrl: 'http://localhost:3000' });
+  const baseUrl = process.env.TEZZ_AUTH_URL || 'http://localhost:3000';
+  const client = new TezzAuthClient({ baseUrl });
 
   // 1. Fetch public key
   console.log('1. Fetching public key...');

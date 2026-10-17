@@ -39,6 +39,8 @@ The Tezz Auth SDK Suite provides native, idiomatic client libraries for web, bac
 
 ## Quick Starts
 
+All SDKs come pre-configured to connect directly to the central authentication service at `https://account.tezzcorp.com`. Developers do not need to configure any URL to get started.
+
 ### 1. JavaScript / TypeScript (`@tezz/auth-sdk`)
 
 ```bash
@@ -48,9 +50,8 @@ npm install @tezz/auth-sdk
 ```javascript
 const { TezzAuthClient, TezzConflictError } = require('@tezz/auth-sdk');
 
-const client = new TezzAuthClient({
-  baseUrl: 'http://localhost:3000', // Production: https://account.tezzcorp.com
-});
+// Pre-configured to https://account.tezzcorp.com
+const client = new TezzAuthClient();
 
 try {
   const result = await client.register({
@@ -76,7 +77,8 @@ pip install tezz-auth
 ```python
 from tezz_auth import TezzAuthClient, TezzConflictError
 
-client = TezzAuthClient(base_url="http://localhost:3000")
+# Pre-configured to https://account.tezzcorp.com
+client = TezzAuthClient()
 
 try:
     result = client.register(
@@ -100,7 +102,8 @@ composer require tezz/auth-sdk
 use Tezz\Auth\TezzAuthClient;
 use Tezz\Auth\Exceptions\TezzConflictException;
 
-$client = new TezzAuthClient(['base_url' => 'http://localhost:3000']);
+// Pre-configured to https://account.tezzcorp.com
+$client = new TezzAuthClient();
 
 try {
     $result = $client->register(
@@ -125,7 +128,8 @@ dotnet add package Tezz.Auth
 using Tezz.Auth;
 using Tezz.Auth.Exceptions;
 
-using var client = new TezzAuthClient("http://localhost:3000");
+// Pre-configured to https://account.tezzcorp.com
+using var client = new TezzAuthClient();
 
 try
 {
@@ -150,7 +154,8 @@ import com.tezz.auth.TezzAuthClient;
 import com.tezz.auth.model.AuthResponse;
 import com.tezz.auth.exception.TezzConflictException;
 
-TezzAuthClient client = new TezzAuthClient("http://localhost:3000");
+// Pre-configured to https://account.tezzcorp.com
+TezzAuthClient client = new TezzAuthClient();
 
 try {
     AuthResponse response = client.register(
@@ -175,7 +180,8 @@ import com.tezz.auth.android.model.AuthResponse;
 import com.tezz.auth.android.exception.TezzAuthException;
 import com.tezz.auth.android.exception.TezzConflictException;
 
-TezzAuthClient client = new TezzAuthClient("http://10.0.2.2:3000");
+// Pre-configured to https://account.tezzcorp.com
+TezzAuthClient client = new TezzAuthClient();
 
 client.register(
     "Rohit Sharma",

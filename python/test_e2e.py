@@ -13,7 +13,10 @@ def main() -> None:
     print("Running Python SDK End-to-End Test Suite")
     print("======================================================\n")
 
-    client = TezzAuthClient(base_url="http://localhost:3000")
+    assert TezzAuthClient.DEFAULT_BASE_URL == "https://account.tezzcorp.com"
+    import os
+    base_url = os.getenv("TEZZ_AUTH_URL", "http://localhost:3000")
+    client = TezzAuthClient(base_url=base_url)
     timestamp = int(time.time() * 1000)
     test_email = f"python.sdk.{timestamp}@tezz.com"
     test_phone = f"+9197{str(timestamp)[-8:]}"
