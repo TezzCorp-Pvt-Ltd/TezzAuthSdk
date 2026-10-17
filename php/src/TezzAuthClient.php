@@ -1,8 +1,8 @@
 <?php
 
-namespace TezzCorp\Auth;
+namespace Tezz\Auth;
 
-use TezzCorp\Auth\Exceptions\TezzAuthException;
+use Tezz\Auth\Exceptions\TezzAuthException;
 
 class TezzAuthClient
 {

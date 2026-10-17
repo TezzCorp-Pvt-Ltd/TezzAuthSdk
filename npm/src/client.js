@@ -1,5 +1,5 @@
 /**
- * TezzCorp Authentication Client (Pure JavaScript)
+ * Tezz Authentication Client (Pure JavaScript)
  */
 
 const { rsaEncrypt } = require('./crypto');

@@ -1,4 +1,4 @@
-package com.tezzcorp.auth.model;
+package com.tezz.auth.model;
 
 import org.json.JSONObject;
 

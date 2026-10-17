@@ -1,4 +1,4 @@
-package com.tezzcorp.auth.exception;
+package com.tezz.auth.exception;
 
 public class TezzRateLimitException extends TezzAuthException {
     private final int remainingAttempts;

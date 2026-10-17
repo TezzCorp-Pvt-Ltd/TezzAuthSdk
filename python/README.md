@@ -1,4 +1,4 @@
-# tezzcorp-auth (Python SDK)
+# tezz-auth (Python SDK)
 
 Official Python SDK for Tezz Auth (`account.tezzcorp.com`).
 
@@ -14,7 +14,7 @@ Official Python SDK for Tezz Auth (`account.tezzcorp.com`).
 ## Installation
 
 ```bash
-pip install tezzcorp-auth
+pip install tezz-auth
 ```
 
 ---
@@ -22,7 +22,7 @@ pip install tezzcorp-auth
 ## Quick Start
 
 ```python
-from tezzcorp_auth import TezzAuthClient
+from tezz_auth import TezzAuthClient
 
 client = TezzAuthClient(base_url="http://localhost:3000")  # Or https://account.tezzcorp.com
 ```
@@ -41,7 +41,7 @@ print(f"Email available: {is_available}")
 When an account with the provided email or phone already exists, the SDK raises `TezzConflictError` containing `conflict_field` (`'email'`, `'phone'`, or `'both'`):
 
 ```python
-from tezzcorp_auth import (
+from tezz_auth import (
     TezzAuthClient,
     TezzConflictError,
     TezzValidationError,
@@ -140,4 +140,4 @@ TezzAuthError (base)
 ---
 
 ## License
-MIT (c) TezzCorp
+MIT (c) Tezz

@@ -5,7 +5,7 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
 
-from tezzcorp_auth import TezzAuthClient, TezzAuthError, TezzConflictError
+from tezz_auth import TezzAuthClient, TezzAuthError, TezzConflictError
 
 
 def main() -> None:
@@ -15,7 +15,7 @@ def main() -> None:
 
     client = TezzAuthClient(base_url="http://localhost:3000")
     timestamp = int(time.time() * 1000)
-    test_email = f"python.sdk.{timestamp}@tezzcorp.com"
+    test_email = f"python.sdk.{timestamp}@tezz.com"
     test_phone = f"+9197{str(timestamp)[-8:]}"
     password = "PythonSecure@2026"
 

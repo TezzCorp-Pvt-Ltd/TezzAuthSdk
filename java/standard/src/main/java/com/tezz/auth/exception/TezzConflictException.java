@@ -1,10 +1,10 @@
-package com.tezzcorp.auth.android.exception;
+package com.tezz.auth.exception;
 
 public class TezzConflictException extends TezzAuthException {
     private final String conflictField;
 
-    public TezzConflictException(String message, String conflictField) {
-        super(message, 409);
+    public TezzConflictException(String message, String conflictField, String responseBody) {
+        super(message, 409, responseBody);
         this.conflictField = conflictField != null ? conflictField : "account";
     }
 

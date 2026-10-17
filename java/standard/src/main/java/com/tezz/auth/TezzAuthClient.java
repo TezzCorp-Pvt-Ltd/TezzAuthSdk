@@ -1,10 +1,10 @@
-package com.tezzcorp.auth;
+package com.tezz.auth;
 
-import com.tezzcorp.auth.exception.TezzAuthException;
-import com.tezzcorp.auth.exception.TezzConflictException;
-import com.tezzcorp.auth.exception.TezzRateLimitException;
-import com.tezzcorp.auth.exception.TezzValidationException;
-import com.tezzcorp.auth.model.AuthResponse;
+import com.tezz.auth.exception.TezzAuthException;
+import com.tezz.auth.exception.TezzConflictException;
+import com.tezz.auth.exception.TezzRateLimitException;
+import com.tezz.auth.exception.TezzValidationException;
+import com.tezz.auth.model.AuthResponse;
 import org.json.JSONObject;
 
 import java.net.URI;

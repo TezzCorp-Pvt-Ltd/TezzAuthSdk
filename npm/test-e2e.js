@@ -1,5 +1,5 @@
 /**
- * Comprehensive End-to-End Test for @tezzcorp/auth-sdk (Pure JavaScript)
+ * Comprehensive End-to-End Test for @tezz/auth-sdk (Pure JavaScript)
  */
 
 const { TezzAuthClient, rsaEncrypt, TezzRateLimitError, TezzAuthError, TezzConflictError } = require('./src/index');
@@ -11,7 +11,7 @@ async function main() {
 
   const client = new TezzAuthClient({ baseUrl: 'http://localhost:3000' });
   const timestamp = Date.now();
-  const testEmail = `js.sdk.${timestamp}@tezzcorp.com`;
+  const testEmail = `js.sdk.${timestamp}@tezz.com`;
   const testPhone = `+9199${String(timestamp).slice(-8)}`;
   const password = 'SuperSecret@2026';
   const newPassword = 'NewSecret@2026';

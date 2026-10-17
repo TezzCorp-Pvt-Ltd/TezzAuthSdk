@@ -1,4 +1,4 @@
-# tezzcorp/auth-sdk (PHP Composer SDK)
+# tezz/auth-sdk (PHP Composer SDK)
 
 Official PHP Client SDK for Tezz Auth (`account.tezzcorp.com`).
 
@@ -22,7 +22,7 @@ Official PHP Client SDK for Tezz Auth (`account.tezzcorp.com`).
 ## Installation
 
 ```bash
-composer require tezzcorp/auth-sdk
+composer require tezz/auth-sdk
 ```
 
 ---
@@ -30,7 +30,7 @@ composer require tezzcorp/auth-sdk
 ## Quick Start
 
 ```php
-use TezzCorp\Auth\TezzAuthClient;
+use Tezz\Auth\TezzAuthClient;
 
 $client = new TezzAuthClient([
     'base_url' => 'http://localhost:3000', // Production: https://account.tezzcorp.com
@@ -52,9 +52,9 @@ echo $isAvailable ? "Email is available\n" : "Email is taken\n";
 When registering, if an account with that email or phone already exists, the SDK throws `TezzConflictException`. You can inspect `getConflictField()` to prompt the user:
 
 ```php
-use TezzCorp\Auth\Exceptions\TezzConflictException;
-use TezzCorp\Auth\Exceptions\TezzValidationException;
-use TezzCorp\Auth\Exceptions\TezzRateLimitException;
+use Tezz\Auth\Exceptions\TezzConflictException;
+use Tezz\Auth\Exceptions\TezzValidationException;
+use Tezz\Auth\Exceptions\TezzRateLimitException;
 
 try {
     $response = $client->register(
@@ -151,4 +151,4 @@ TezzAuthException (base)
 ---
 
 ## License
-MIT (c) TezzCorp
+MIT (c) Tezz

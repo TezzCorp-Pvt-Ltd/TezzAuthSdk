@@ -12,11 +12,11 @@ The Tezz Auth SDK Suite provides native, idiomatic client libraries for web, bac
 
 | Platform | Package | Directory | Requirements |
 |---|---|---|---|
-| **JavaScript / TypeScript** | `@tezzcorp/auth-sdk` | `npm/` | Node.js 18+ (Pure JS, zero external dependencies) |
-| **Python** | `tezzcorp-auth` | `python/` | Python 3.9+ (`requests`, `cryptography`) |
-| **PHP** | `tezzcorp/auth-sdk` | `php/` | PHP 8.1+ (`ext-curl`, `ext-openssl`, `ext-json`) |
-| **Java Standard** | `com.tezzcorp:auth-sdk` | `java/standard/` | Java 11+ (`java.net.http`, `org.json`) |
-| **Android** | `com.tezzcorp:auth-sdk-android` | `java/android/` | Android API Level 21+ (OkHttp, Gson) |
+| **JavaScript / TypeScript** | `@tezz/auth-sdk` | `npm/` | Node.js 18+ (Pure JS, zero external dependencies) |
+| **Python** | `tezz-auth` | `python/` | Python 3.9+ (`requests`, `cryptography`) |
+| **PHP** | `tezz/auth-sdk` | `php/` | PHP 8.1+ (`ext-curl`, `ext-openssl`, `ext-json`) |
+| **Java Standard** | `com.tezz:auth-sdk` | `java/standard/` | Java 11+ (`java.net.http`, `org.json`) |
+| **Android** | `com.tezz:auth-sdk-android` | `java/android/` | Android API Level 21+ (OkHttp, Gson) |
 
 ---
 
@@ -38,14 +38,14 @@ The Tezz Auth SDK Suite provides native, idiomatic client libraries for web, bac
 
 ## Quick Starts
 
-### 1. JavaScript / TypeScript (`@tezzcorp/auth-sdk`)
+### 1. JavaScript / TypeScript (`@tezz/auth-sdk`)
 
 ```bash
-npm install @tezzcorp/auth-sdk
+npm install @tezz/auth-sdk
 ```
 
 ```javascript
-const { TezzAuthClient, TezzConflictError } = require('@tezzcorp/auth-sdk');
+const { TezzAuthClient, TezzConflictError } = require('@tezz/auth-sdk');
 
 const client = new TezzAuthClient({
   baseUrl: 'http://localhost:3000', // Production: https://account.tezzcorp.com
@@ -66,14 +66,14 @@ try {
 }
 ```
 
-### 2. Python (`tezzcorp-auth`)
+### 2. Python (`tezz-auth`)
 
 ```bash
-pip install tezzcorp-auth
+pip install tezz-auth
 ```
 
 ```python
-from tezzcorp_auth import TezzAuthClient, TezzConflictError
+from tezz_auth import TezzAuthClient, TezzConflictError
 
 client = TezzAuthClient(base_url="http://localhost:3000")
 
@@ -89,15 +89,15 @@ except TezzConflictError as e:
     print(f"Account exists. Conflicting field: {e.conflict_field}")
 ```
 
-### 3. PHP Composer (`tezzcorp/auth-sdk`)
+### 3. PHP Composer (`tezz/auth-sdk`)
 
 ```bash
-composer require tezzcorp/auth-sdk
+composer require tezz/auth-sdk
 ```
 
 ```php
-use TezzCorp\Auth\TezzAuthClient;
-use TezzCorp\Auth\Exceptions\TezzConflictException;
+use Tezz\Auth\TezzAuthClient;
+use Tezz\Auth\Exceptions\TezzConflictException;
 
 $client = new TezzAuthClient(['base_url' => 'http://localhost:3000']);
 
@@ -117,9 +117,9 @@ try {
 ### 4. Java 11+ Standard
 
 ```java
-import com.tezzcorp.auth.TezzAuthClient;
-import com.tezzcorp.auth.model.AuthResponse;
-import com.tezzcorp.auth.exception.TezzConflictException;
+import com.tezz.auth.TezzAuthClient;
+import com.tezz.auth.model.AuthResponse;
+import com.tezz.auth.exception.TezzConflictException;
 
 TezzAuthClient client = new TezzAuthClient("http://localhost:3000");
 
@@ -140,11 +140,11 @@ try {
 ### 5. Android (API 21+)
 
 ```java
-import com.tezzcorp.auth.android.TezzAuthClient;
-import com.tezzcorp.auth.android.TezzCallback;
-import com.tezzcorp.auth.android.model.AuthResponse;
-import com.tezzcorp.auth.android.exception.TezzAuthException;
-import com.tezzcorp.auth.android.exception.TezzConflictException;
+import com.tezz.auth.android.TezzAuthClient;
+import com.tezz.auth.android.TezzCallback;
+import com.tezz.auth.android.model.AuthResponse;
+import com.tezz.auth.android.exception.TezzAuthException;
+import com.tezz.auth.android.exception.TezzConflictException;
 
 TezzAuthClient client = new TezzAuthClient("http://10.0.2.2:3000");
 
@@ -190,4 +190,4 @@ sdk/
 
 ## License
 
-MIT (c) TezzCorp
+MIT (c) Tezz

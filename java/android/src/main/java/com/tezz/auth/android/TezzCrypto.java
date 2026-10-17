@@ -1,7 +1,7 @@
-package com.tezzcorp.auth.android;
+package com.tezz.auth.android;
 
 import android.util.Base64;
-import com.tezzcorp.auth.android.exception.TezzAuthException;
+import com.tezz.auth.android.exception.TezzAuthException;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.OAEPParameterSpec;

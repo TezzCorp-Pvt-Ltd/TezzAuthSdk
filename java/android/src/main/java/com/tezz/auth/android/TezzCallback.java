@@ -1,6 +1,6 @@
-package com.tezzcorp.auth.android;
+package com.tezz.auth.android;
 
-import com.tezzcorp.auth.android.exception.TezzAuthException;
+import com.tezz.auth.android.exception.TezzAuthException;
 
 public interface TezzCallback<T> {
     void onSuccess(T result);

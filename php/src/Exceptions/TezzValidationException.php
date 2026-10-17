@@ -1,6 +1,6 @@
 <?php
 
-namespace TezzCorp\Auth\Exceptions;
+namespace Tezz\Auth\Exceptions;
 
 class TezzValidationException extends TezzAuthException
 {

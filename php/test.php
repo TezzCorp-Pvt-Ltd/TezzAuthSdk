@@ -1,12 +1,12 @@
 <?php
 
 /**
- * End-to-End Test for TezzCorp PHP SDK
+ * End-to-End Test for Tezz PHP SDK
  */
 
 // Simple PSR-4 Autoloader for standalone testing
 spl_autoload_register(function ($class) {
-    $prefix = 'TezzCorp\\Auth\\';
+    $prefix = 'Tezz\\Auth\\';
     $base_dir = __DIR__ . '/src/';
     $len = strlen($prefix);
     if (strncmp($prefix, $class, $len) !== 0) return;
@@ -15,9 +15,9 @@ spl_autoload_register(function ($class) {
     if (file_exists($file)) require $file;
 });
 
-use TezzCorp\Auth\TezzAuthClient;
-use TezzCorp\Auth\Exceptions\TezzAuthException;
-use TezzCorp\Auth\Exceptions\TezzConflictException;
+use Tezz\Auth\TezzAuthClient;
+use Tezz\Auth\Exceptions\TezzAuthException;
+use Tezz\Auth\Exceptions\TezzConflictException;
 
 echo "\n======================================================\n";
 echo "Running PHP Composer SDK End-to-End Test Suite\n";
@@ -28,7 +28,7 @@ $client = new TezzAuthClient([
     'headers'  => ['X-Forwarded-For: 198.51.100.42'],
 ]);
 $timestamp = time();
-$testEmail = "php.sdk.{$timestamp}@tezzcorp.com";
+$testEmail = "php.sdk.{$timestamp}@tezz.com";
 $testPhone = "+9198" . substr((string)$timestamp, -8);
 $password = "PhpSecure@2026";
 

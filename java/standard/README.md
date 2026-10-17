@@ -14,7 +14,7 @@ Official Java 11+ SDK for Tezz Auth (`account.tezzcorp.com`).
 
 ```xml
 <dependency>
-    <groupId>com.tezzcorp</groupId>
+    <groupId>com.tezz</groupId>
     <artifactId>auth-sdk</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -25,7 +25,7 @@ Official Java 11+ SDK for Tezz Auth (`account.tezzcorp.com`).
 ## Quick Start
 
 ```java
-import com.tezzcorp.auth.TezzAuthClient;
+import com.tezz.auth.TezzAuthClient;
 
 TezzAuthClient client = new TezzAuthClient("http://localhost:3000"); // Production: https://account.tezzcorp.com
 ```
@@ -44,12 +44,12 @@ System.out.println("Available: " + isAvailable);
 When registering, if an account already exists with that email or phone, the SDK throws `TezzConflictException`:
 
 ```java
-import com.tezzcorp.auth.TezzAuthClient;
-import com.tezzcorp.auth.model.AuthResponse;
-import com.tezzcorp.auth.exception.TezzConflictException;
-import com.tezzcorp.auth.exception.TezzRateLimitException;
-import com.tezzcorp.auth.exception.TezzValidationException;
-import com.tezzcorp.auth.exception.TezzAuthException;
+import com.tezz.auth.TezzAuthClient;
+import com.tezz.auth.model.AuthResponse;
+import com.tezz.auth.exception.TezzConflictException;
+import com.tezz.auth.exception.TezzRateLimitException;
+import com.tezz.auth.exception.TezzValidationException;
+import com.tezz.auth.exception.TezzAuthException;
 
 TezzAuthClient client = new TezzAuthClient("http://localhost:3000");
 
@@ -133,4 +133,4 @@ TezzAuthException (base)
 ---
 
 ## License
-MIT (c) TezzCorp
+MIT (c) Tezz

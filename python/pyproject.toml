@@ -3,16 +3,16 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tezzcorp-auth"
+name = "tezz-auth"
 version = "1.0.0"
 description = "Official Python SDK for Tezz Auth"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [
-    { name = "TezzCorp Engineering", email = "dev@tezzcorp.com" }
+    { name = "Tezz Engineering", email = "dev@tezzcorp.com" }
 ]
-keywords = ["tezzcorp", "authentication", "identity", "rsa", "jwt"]
+keywords = ["tezz", "authentication", "identity", "rsa", "jwt"]
 dependencies = [
     "requests>=2.28.0",
     "cryptography>=41.0.0"

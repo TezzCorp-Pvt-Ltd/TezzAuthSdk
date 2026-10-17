@@ -1,11 +1,11 @@
 {
-  "name": "tezzcorp/auth-sdk",
+  "name": "tezz/auth-sdk",
   "description": "Official PHP SDK for Tezz Auth",
   "type": "library",
   "license": "MIT",
   "authors": [
     {
-      "name": "TezzCorp Engineering",
+      "name": "Tezz Engineering",
       "email": "dev@tezzcorp.com"
     }
   ],
@@ -17,7 +17,7 @@
   },
   "autoload": {
     "psr-4": {
-      "TezzCorp\\Auth\\": "src/"
+      "Tezz\\Auth\\": "src/"
     }
   }
 }

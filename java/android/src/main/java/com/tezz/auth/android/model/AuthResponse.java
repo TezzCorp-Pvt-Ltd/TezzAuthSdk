@@ -1,4 +1,4 @@
-package com.tezzcorp.auth.android.model;
+package com.tezz.auth.android.model;
 
 import com.google.gson.annotations.SerializedName;
 

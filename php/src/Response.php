@@ -1,6 +1,6 @@
 <?php
 
-namespace TezzCorp\Auth;
+namespace Tezz\Auth;
 
 class Response
 {

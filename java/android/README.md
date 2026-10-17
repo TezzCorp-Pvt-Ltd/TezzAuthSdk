@@ -23,7 +23,7 @@ Official Android Client Library for Tezz Auth (`account.tezzcorp.com`).
 In your app module `build.gradle`:
 ```groovy
 dependencies {
-    implementation 'com.tezzcorp:auth-sdk-android:1.0.0'
+    implementation 'com.tezz:auth-sdk-android:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'androidx.security:security-crypto:1.1.0-alpha06' // Recommended for EncryptedSharedPreferences
@@ -40,7 +40,7 @@ Ensure Internet permission is granted in `AndroidManifest.xml`:
 ## Quick Start
 
 ```java
-import com.tezzcorp.auth.android.TezzAuthClient;
+import com.tezz.auth.android.TezzAuthClient;
 
 // Use 10.0.2.2 for Android Emulator connecting to host localhost:3000
 // Production: https://account.tezzcorp.com
@@ -55,11 +55,11 @@ TezzAuthClient client = new TezzAuthClient("http://10.0.2.2:3000");
 When an account already exists with the entered email or phone, `onError` is triggered with `TezzConflictException`:
 
 ```java
-import com.tezzcorp.auth.android.TezzCallback;
-import com.tezzcorp.auth.android.model.AuthResponse;
-import com.tezzcorp.auth.android.exception.TezzAuthException;
-import com.tezzcorp.auth.android.exception.TezzConflictException;
-import com.tezzcorp.auth.android.exception.TezzRateLimitException;
+import com.tezz.auth.android.TezzCallback;
+import com.tezz.auth.android.model.AuthResponse;
+import com.tezz.auth.android.exception.TezzAuthException;
+import com.tezz.auth.android.exception.TezzConflictException;
+import com.tezz.auth.android.exception.TezzRateLimitException;
 import android.app.AlertDialog;
 
 client.register(
@@ -201,4 +201,4 @@ TezzAuthException (base)
 ---
 
 ## License
-MIT (c) TezzCorp
+MIT (c) Tezz

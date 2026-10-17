@@ -1,4 +1,4 @@
-"""TezzCorp Central Identity & Authentication Python SDK."""
+"""Tezz Central Identity & Authentication Python SDK."""
 
 from .client import TezzAuthClient
 from .crypto import rsa_encrypt

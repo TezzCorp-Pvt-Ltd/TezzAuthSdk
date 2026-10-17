@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'com.tezzcorp.auth.android'
+    namespace 'com.tezz.auth.android'
     compileSdk 34
 
     defaultConfig {

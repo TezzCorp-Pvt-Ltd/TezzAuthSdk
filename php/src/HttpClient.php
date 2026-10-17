@@ -1,11 +1,11 @@
 <?php
 
-namespace TezzCorp\Auth;
+namespace Tezz\Auth;
 
-use TezzCorp\Auth\Exceptions\TezzAuthException;
-use TezzCorp\Auth\Exceptions\TezzRateLimitException;
-use TezzCorp\Auth\Exceptions\TezzValidationException;
-use TezzCorp\Auth\Exceptions\TezzConflictException;
+use Tezz\Auth\Exceptions\TezzAuthException;
+use Tezz\Auth\Exceptions\TezzRateLimitException;
+use Tezz\Auth\Exceptions\TezzValidationException;
+use Tezz\Auth\Exceptions\TezzConflictException;
 
 class HttpClient
 {

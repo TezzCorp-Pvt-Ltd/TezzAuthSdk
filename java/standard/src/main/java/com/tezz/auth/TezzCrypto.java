@@ -1,6 +1,6 @@
-package com.tezzcorp.auth;
+package com.tezz.auth;
 
-import com.tezzcorp.auth.exception.TezzAuthException;
+import com.tezz.auth.exception.TezzAuthException;
 import javax.crypto.Cipher;
 import javax.crypto.spec.OAEPParameterSpec;
 import javax.crypto.spec.PSource;

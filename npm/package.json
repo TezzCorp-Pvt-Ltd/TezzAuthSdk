@@ -1,5 +1,5 @@
 {
-  "name": "@tezzcorp/auth-sdk",
+  "name": "@tezz/auth-sdk",
   "version": "1.0.0",
   "description": "Official pure JavaScript SDK for Tezz Auth",
   "main": "./src/index.js",
@@ -16,7 +16,7 @@
     "node": ">=18.0.0"
   },
   "keywords": [
-    "tezzcorp",
+    "tezz",
     "auth",
     "authentication",
     "identity",
@@ -24,7 +24,7 @@
     "jwt",
     "pure-js"
   ],
-  "author": "TezzCorp",
+  "author": "Tezz",
   "license": "MIT",
   "scripts": {
     "test": "node test-e2e.js"

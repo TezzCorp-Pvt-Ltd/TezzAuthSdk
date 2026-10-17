@@ -1,8 +1,8 @@
-package com.tezzcorp.auth;
+package com.tezz.auth;
 
-import com.tezzcorp.auth.exception.TezzAuthException;
-import com.tezzcorp.auth.exception.TezzConflictException;
-import com.tezzcorp.auth.model.AuthResponse;
+import com.tezz.auth.exception.TezzAuthException;
+import com.tezz.auth.exception.TezzConflictException;
+import com.tezz.auth.model.AuthResponse;
 
 public class TestRunner {
     public static void main(String[] args) {
@@ -12,7 +12,7 @@ public class TestRunner {
 
         TezzAuthClient client = new TezzAuthClient("http://localhost:3000");
         long timestamp = System.currentTimeMillis();
-        String testEmail = "java.sdk." + timestamp + "@tezzcorp.com";
+        String testEmail = "java.sdk." + timestamp + "@tezz.com";
         String testPhone = "+9196" + String.valueOf(timestamp).substring(String.valueOf(timestamp).length() - 8);
         String password = "JavaSecure@2026";
 

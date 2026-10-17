@@ -1,4 +1,4 @@
-# @tezzcorp/auth-sdk
+# @tezz/auth-sdk
 
 Official **Pure JavaScript** Client SDK for Tezz Auth (`account.tezzcorp.com`).
 
@@ -14,7 +14,7 @@ Official **Pure JavaScript** Client SDK for Tezz Auth (`account.tezzcorp.com`).
 ## Installation
 
 ```bash
-npm install @tezzcorp/auth-sdk
+npm install @tezz/auth-sdk
 ```
 
 ---
@@ -23,7 +23,7 @@ npm install @tezzcorp/auth-sdk
 
 ### CommonJS
 ```javascript
-const { TezzAuthClient } = require('@tezzcorp/auth-sdk');
+const { TezzAuthClient } = require('@tezz/auth-sdk');
 
 const client = new TezzAuthClient({
   baseUrl: 'http://localhost:3000', // Production: 'https://account.tezzcorp.com'
@@ -33,7 +33,7 @@ const client = new TezzAuthClient({
 
 ### ESM
 ```javascript
-import { TezzAuthClient } from '@tezzcorp/auth-sdk';
+import { TezzAuthClient } from '@tezz/auth-sdk';
 
 const client = new TezzAuthClient({ baseUrl: 'http://localhost:3000' });
 ```
@@ -56,7 +56,7 @@ if (check.available) {
 When registering, if an account with that email or phone already exists, the SDK throws a typed `TezzConflictError` indicating the exact conflicting credential (`'email'`, `'phone'`, or `'both'`). Your application can present intuitive options:
 
 ```javascript
-const { TezzConflictError, TezzValidationError } = require('@tezzcorp/auth-sdk');
+const { TezzConflictError, TezzValidationError } = require('@tezz/auth-sdk');
 
 try {
   const result = await client.register({
@@ -158,4 +158,4 @@ TezzAuthError (base)
 ---
 
 ## License
-MIT (c) TezzCorp
+MIT (c) Tezz

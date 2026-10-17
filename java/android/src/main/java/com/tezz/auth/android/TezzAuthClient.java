@@ -1,12 +1,12 @@
-package com.tezzcorp.auth.android;
+package com.tezz.auth.android;
 
 import android.os.Handler;
 import android.os.Looper;
 import com.google.gson.Gson;
-import com.tezzcorp.auth.android.exception.TezzAuthException;
-import com.tezzcorp.auth.android.exception.TezzConflictException;
-import com.tezzcorp.auth.android.exception.TezzRateLimitException;
-import com.tezzcorp.auth.android.model.AuthResponse;
+import com.tezz.auth.android.exception.TezzAuthException;
+import com.tezz.auth.android.exception.TezzConflictException;
+import com.tezz.auth.android.exception.TezzRateLimitException;
+import com.tezz.auth.android.model.AuthResponse;
 import okhttp3.*;
 
 import java.io.IOException;

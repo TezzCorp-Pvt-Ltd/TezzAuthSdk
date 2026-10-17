@@ -1,4 +1,4 @@
-package com.tezzcorp.auth.android.exception;
+package com.tezz.auth.android.exception;
 
 public class TezzAuthException extends Exception {
     private final int statusCode;

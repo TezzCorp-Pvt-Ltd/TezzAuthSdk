@@ -1,5 +1,5 @@
 /**
- * Integration Test for Pure JS @tezzcorp/auth-sdk
+ * Integration Test for Pure JS @tezz/auth-sdk
  */
 
 const { TezzAuthClient, rsaEncrypt } = require('./src/index');
