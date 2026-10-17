@@ -12,6 +12,10 @@ local.properties
 *.class
 *.jar
 *.aar
+bin/
+obj/
+*.suo
+*.user
 *.log
 .DS_Store
 Thumbs.db

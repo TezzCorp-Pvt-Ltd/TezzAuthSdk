@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0;net8.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Tezz.Auth</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Tezz</Authors>
+    <Company>Tezz</Company>
+    <Description>Official .NET Client SDK for Tezz Auth</Description>
+    <RepositoryUrl>https://github.com/TezzCorp-Pvt-Ltd/TezzAuthSdk.git</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+</Project>

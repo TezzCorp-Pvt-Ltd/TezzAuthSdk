@@ -15,6 +15,7 @@ The Tezz Auth SDK Suite provides native, idiomatic client libraries for web, bac
 | **JavaScript / TypeScript** | `@tezz/auth-sdk` | `npm/` | Node.js 18+ (Pure JS, zero external dependencies) |
 | **Python** | `tezz-auth` | `python/` | Python 3.9+ (`requests`, `cryptography`) |
 | **PHP** | `tezz/auth-sdk` | `php/` | PHP 8.1+ (`ext-curl`, `ext-openssl`, `ext-json`) |
+| **.NET (C#)** | `Tezz.Auth` | `dotnet/` | .NET 8.0 LTS / .NET 10.0 (Pure C#, zero external dependencies) |
 | **Java Standard** | `com.tezz:auth-sdk` | `java/standard/` | Java 11+ (`java.net.http`, `org.json`) |
 | **Android** | `com.tezz:auth-sdk-android` | `java/android/` | Android API Level 21+ (OkHttp, Gson) |
 
@@ -114,7 +115,35 @@ try {
 }
 ```
 
-### 4. Java 11+ Standard
+### 4. .NET (C#) (`Tezz.Auth`)
+
+```bash
+dotnet add package Tezz.Auth
+```
+
+```csharp
+using Tezz.Auth;
+using Tezz.Auth.Exceptions;
+
+using var client = new TezzAuthClient("http://localhost:3000");
+
+try
+{
+    var response = await client.RegisterAsync(
+        fullName: "Rohit Sharma",
+        email: "rohit@example.com",
+        phoneNumber: "+919876543210",
+        password: "SecurePassword@123");
+
+    Console.WriteLine($"Session Token: {response.Token}");
+}
+catch (TezzConflictException ex)
+{
+    Console.WriteLine($"Conflict field: {ex.ConflictField}");
+}
+```
+
+### 5. Java 11+ Standard
 
 ```java
 import com.tezz.auth.TezzAuthClient;
@@ -137,7 +166,7 @@ try {
 }
 ```
 
-### 5. Android (API 21+)
+### 6. Android (API 21+)
 
 ```java
 import com.tezz.auth.android.TezzAuthClient;
@@ -178,6 +207,7 @@ client.register(
 
 ```
 sdk/
+├── dotnet/          # .NET C# NuGet package
 ├── npm/             # JavaScript / TypeScript NPM package
 ├── python/          # Python PyPI package
 ├── php/             # PHP Composer package
