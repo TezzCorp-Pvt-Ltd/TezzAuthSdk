@@ -1,0 +1,32 @@
+{
+  "name": "@tezzcorp/auth-sdk",
+  "version": "1.0.0",
+  "description": "Official pure JavaScript SDK for Tezz Auth",
+  "main": "./src/index.js",
+  "module": "./src/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./src/index.mjs",
+      "require": "./src/index.js",
+      "types": "./types/index.d.ts"
+    }
+  },
+  "types": "./types/index.d.ts",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "tezzcorp",
+    "auth",
+    "authentication",
+    "identity",
+    "rsa",
+    "jwt",
+    "pure-js"
+  ],
+  "author": "TezzCorp",
+  "license": "MIT",
+  "scripts": {
+    "test": "node test-e2e.js"
+  }
+}

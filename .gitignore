@@ -1,0 +1,19 @@
+# Dependencies and builds
+node_modules/
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.py[cod]
+vendor/
+target/
+.gradle/
+local.properties
+*.class
+*.jar
+*.aar
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
