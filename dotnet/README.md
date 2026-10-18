@@ -73,8 +73,8 @@ using Tezz.Auth.Exceptions;
 try
 {
     var response = await client.RegisterAsync(
-        fullName: "Rohit Sharma",
-        email: "rohit@example.com",
+        fullName: "Example User",
+        email: "example@tezzcorp.com",
         phoneNumber: "+919876543210",
         password: "SecurePassword@123");
 
@@ -88,7 +88,7 @@ catch (TezzConflictException ex)
     switch (ex.ConflictField)
     {
         case "email":
-            Console.WriteLine("1. Sign in with rohit@example.com");
+            Console.WriteLine("1. Sign in with example@tezzcorp.com");
             Console.WriteLine("2. Reset password via email OTP");
             Console.WriteLine("3. Register with a different email");
             break;
@@ -116,7 +116,7 @@ catch (TezzAuthException ex)
 ### 3. User Login
 
 ```csharp
-var login = await client.LoginAsync("rohit@example.com", "SecurePassword@123");
+var login = await client.LoginAsync("example@tezzcorp.com", "SecurePassword@123");
 Console.WriteLine($"Welcome back, {login.User?.FullName}!");
 Console.WriteLine($"Session Token: {login.Token}");
 ```
@@ -125,12 +125,12 @@ Console.WriteLine($"Session Token: {login.Token}");
 
 ```csharp
 // Step 1: Request OTP
-var forgot = await client.ForgotPasswordAsync("rohit@example.com", "email");
+var forgot = await client.ForgotPasswordAsync("example@tezzcorp.com", "email");
 Console.WriteLine(forgot.Message);
 
 // Step 2: Verify OTP and update password
 var reset = await client.ResetPasswordAsync(
-    identifier: "rohit@example.com",
+    identifier: "example@tezzcorp.com",
     channel: "email",
     otpCode: "123456",
     newPassword: "BrandNewPassword@456",
@@ -143,7 +143,7 @@ Console.WriteLine(reset.Message); // "Password has been reset successfully. You 
 
 ```csharp
 var deletion = await client.RequestDeletionAsync(
-    identifier: "rohit@example.com",
+    identifier: "example@tezzcorp.com",
     password: "CurrentPassword@123",
     reason: "Switching accounts");
 

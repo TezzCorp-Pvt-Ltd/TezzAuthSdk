@@ -70,8 +70,8 @@ import com.tezz.auth.android.exception.TezzRateLimitException;
 import android.app.AlertDialog;
 
 client.register(
-    "Rohit Sharma",
-    "rohit@example.com",
+    "Example User",
+    "example@tezzcorp.com",
     "+919876543210",
     "SecurePassword@123",
     new TezzCallback<AuthResponse>() {
@@ -95,12 +95,12 @@ client.register(
                     .setPositiveButton("Sign In Instead", (d, w) -> {
                         // Navigate to LoginActivity with pre-filled identifier
                         startActivity(new Intent(context, LoginActivity.class)
-                            .putExtra("identifier", "rohit@example.com"));
+                            .putExtra("identifier", "example@tezzcorp.com"));
                     })
                     .setNegativeButton("Reset Password", (d, w) -> {
                         // Navigate to ForgotPasswordActivity
                         startActivity(new Intent(context, ForgotPasswordActivity.class)
-                            .putExtra("identifier", "rohit@example.com"));
+                            .putExtra("identifier", "example@tezzcorp.com"));
                     })
                     .setNeutralButton("Cancel", null)
                     .show();
@@ -118,7 +118,7 @@ client.register(
 
 ### 2. User Login
 ```java
-client.login("rohit@example.com", "SecurePassword@123", new TezzCallback<AuthResponse>() {
+client.login("example@tezzcorp.com", "SecurePassword@123", new TezzCallback<AuthResponse>() {
     @Override
     public void onSuccess(AuthResponse response) {
         saveSecureToken(context, response.getToken());
@@ -135,7 +135,7 @@ client.login("rohit@example.com", "SecurePassword@123", new TezzCallback<AuthRes
 ### 3. Forgot Password & OTP Reset Flow
 ```java
 // Step 1: Request OTP
-client.forgotPassword("rohit@example.com", "email", new TezzCallback<AuthResponse>() {
+client.forgotPassword("example@tezzcorp.com", "email", new TezzCallback<AuthResponse>() {
     @Override
     public void onSuccess(AuthResponse response) {
         Toast.makeText(context, response.getMessage(), Toast.LENGTH_LONG).show();
@@ -149,7 +149,7 @@ client.forgotPassword("rohit@example.com", "email", new TezzCallback<AuthRespons
 
 // Step 2: Verify OTP & update password
 client.resetPassword(
-    "rohit@example.com",
+    "example@tezzcorp.com",
     "email",
     "123456",
     "NewSecurePassword@456",

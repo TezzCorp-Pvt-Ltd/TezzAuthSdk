@@ -58,8 +58,8 @@ const client = new TezzAuthClient();
 
 try {
   const result = await client.register({
-    fullName: 'Rohit Sharma',
-    email: 'rohit@example.com',
+    fullName: 'Example User',
+    email: 'example@tezzcorp.com',
     phoneNumber: '+919876543210',
     password: 'SecurePassword@123',
   });
@@ -85,8 +85,8 @@ client = TezzAuthClient()
 
 try:
     result = client.register(
-        full_name="Rohit Sharma",
-        email="rohit@example.com",
+        full_name="Example User",
+        email="example@tezzcorp.com",
         phone_number="+919876543210",
         password="SecurePassword@123",
     )
@@ -110,8 +110,8 @@ $client = new TezzAuthClient();
 
 try {
     $result = $client->register(
-        fullName: 'Rohit Sharma',
-        email: 'rohit@example.com',
+        fullName: 'Example User',
+        email: 'example@tezzcorp.com',
         phoneNumber: '+919876543210',
         password: 'SecurePassword@123'
     );
@@ -137,8 +137,8 @@ using var client = new TezzAuthClient();
 try
 {
     var response = await client.RegisterAsync(
-        fullName: "Rohit Sharma",
-        email: "rohit@example.com",
+        fullName: "Example User",
+        email: "example@tezzcorp.com",
         phoneNumber: "+919876543210",
         password: "SecurePassword@123");
 
@@ -162,8 +162,8 @@ TezzAuthClient client = new TezzAuthClient();
 
 try {
     AuthResponse response = client.register(
-        "Rohit Sharma",
-        "rohit@example.com",
+        "Example User",
+        "example@tezzcorp.com",
         "+919876543210",
         "SecurePassword@123",
         "SecurePassword@123"
@@ -187,8 +187,8 @@ import com.tezz.auth.android.exception.TezzConflictException;
 TezzAuthClient client = new TezzAuthClient();
 
 client.register(
-    "Rohit Sharma",
-    "rohit@example.com",
+    "Example User",
+    "example@tezzcorp.com",
     "+919876543210",
     "SecurePassword@123",
     new TezzCallback<AuthResponse>() {

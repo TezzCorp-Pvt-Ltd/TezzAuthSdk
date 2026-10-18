@@ -42,7 +42,7 @@ client = TezzAuthClient()
 
 ### 1. Check Availability (Email or Phone)
 ```python
-is_available = client.check_availability("email", "rohit@example.com")
+is_available = client.check_availability("email", "example@tezzcorp.com")
 print(f"Email available: {is_available}")
 ```
 
@@ -61,8 +61,8 @@ client = TezzAuthClient()
 
 try:
     reg = client.register(
-        full_name="Rohit Sharma",
-        email="rohit@example.com",
+        full_name="Example User",
+        email="example@tezzcorp.com",
         phone_number="+919876543210",
         password="SecurePassword@123",
         confirm_password="SecurePassword@123",
@@ -75,7 +75,7 @@ except TezzConflictError as e:
 
     # Guide user based on which credential matched:
     if e.conflict_field == "email":
-        print("  1. Sign in with rohit@example.com")
+        print("  1. Sign in with example@tezzcorp.com")
         print("  2. Reset password via email OTP")
         print("  3. Register with a different email")
     elif e.conflict_field == "phone":
@@ -94,7 +94,7 @@ except TezzRateLimitError as e:
 
 ### 3. User Login
 ```python
-login = client.login("rohit@example.com", "SecurePassword@123")
+login = client.login("example@tezzcorp.com", "SecurePassword@123")
 print(f"Welcome back, {login.user.full_name}!")
 print(f"Session Token: {login.token}")
 ```
@@ -102,12 +102,12 @@ print(f"Session Token: {login.token}")
 ### 4. Forgot Password Flow
 ```python
 # Step 1: Request OTP (email or SMS)
-forgot = client.forgot_password(identifier="rohit@example.com", channel="email")
+forgot = client.forgot_password(identifier="example@tezzcorp.com", channel="email")
 print(forgot.message)
 
 # Step 2: Verify OTP and update password
 reset = client.reset_password(
-    identifier="rohit@example.com",
+    identifier="example@tezzcorp.com",
     channel="email",
     otp_code="123456",
     new_password="BrandNewPassword@456",

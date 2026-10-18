@@ -65,8 +65,8 @@ const { TezzConflictError, TezzValidationError } = require('@tezzcorp/auth-sdk')
 
 try {
   const result = await client.register({
-    fullName: 'Rohit Sharma',
-    email: 'rohit@example.com',
+    fullName: 'Example User',
+    email: 'example@tezzcorp.com',
     phoneNumber: '+919876543210',
     password: 'SecurePassword@123',
     confirmPassword: 'SecurePassword@123',
@@ -103,7 +103,7 @@ try {
 
 ### 3. User Login
 ```javascript
-const login = await client.login('rohit@example.com', 'SecurePassword@123');
+const login = await client.login('example@tezzcorp.com', 'SecurePassword@123');
 console.log('Welcome back:', login.user.full_name);
 console.log('Verified JWT:', login.token);
 ```
@@ -111,14 +111,14 @@ console.log('Verified JWT:', login.token);
 ### 4. Forgot Password Flow
 ```javascript
 // Step 1: Request OTP (email or SMS channel)
-const forgotRes = await client.forgotPassword('rohit@example.com', 'email');
+const forgotRes = await client.forgotPassword('example@tezzcorp.com', 'email');
 console.log(forgotRes.message);
 // Uniform privacy-safe message:
 // "If your account exists, you will receive password reset instructions with an OTP. Please also check your spam/junk folder for emails."
 
 // Step 2: Verify OTP and update password
 const resetRes = await client.resetPassword({
-  identifier: 'rohit@example.com',
+  identifier: 'example@tezzcorp.com',
   channel: 'email',
   otpCode: '123456',
   newPassword: 'BrandNewPassword@456',

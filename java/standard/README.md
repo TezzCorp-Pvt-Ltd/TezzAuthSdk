@@ -45,7 +45,7 @@ TezzAuthClient client = new TezzAuthClient();
 
 ### 1. Check Availability (Email or Phone)
 ```java
-boolean isAvailable = client.checkAvailability("email", "rohit@example.com");
+boolean isAvailable = client.checkAvailability("email", "example@tezzcorp.com");
 System.out.println("Available: " + isAvailable);
 ```
 
@@ -64,8 +64,8 @@ TezzAuthClient client = new TezzAuthClient();
 
 try {
     AuthResponse reg = client.register(
-        "Rohit Sharma",
-        "rohit@example.com",
+        "Example User",
+        "example@tezzcorp.com",
         "+919876543210",
         "SecurePassword@123",
         "SecurePassword@123"
@@ -81,7 +81,7 @@ try {
     // Present actionable choices to the user:
     switch (e.getConflictField()) {
         case "email":
-            System.out.println("  1. Sign in with rohit@example.com");
+            System.out.println("  1. Sign in with example@tezzcorp.com");
             System.out.println("  2. Reset password via email OTP");
             System.out.println("  3. Register with a different email address");
             break;
@@ -106,7 +106,7 @@ try {
 
 ### 3. User Login
 ```java
-AuthResponse login = client.login("rohit@example.com", "SecurePassword@123");
+AuthResponse login = client.login("example@tezzcorp.com", "SecurePassword@123");
 System.out.println("Welcome, " + login.getUser().getFullName());
 System.out.println("Session Token: " + login.getToken());
 ```
@@ -114,12 +114,12 @@ System.out.println("Session Token: " + login.getToken());
 ### 4. Forgot Password & OTP Reset Flow
 ```java
 // Step 1: Request OTP
-AuthResponse forgot = client.forgotPassword("rohit@example.com", "email");
+AuthResponse forgot = client.forgotPassword("example@tezzcorp.com", "email");
 System.out.println(forgot.getMessage());
 
 // Step 2: Verify OTP and update password
 AuthResponse reset = client.resetPassword(
-    "rohit@example.com",
+    "example@tezzcorp.com",
     "email",
     "123456",
     "BrandNewPassword@456",

@@ -30,7 +30,7 @@ async function runExample() {
   const testEmail = `test.user.${timestamp}@tezzcorp.com`;
   const testPhone = `+9198${String(timestamp).slice(-8)}`;
   const testPassword = 'SecurePassword#2026';
-  const testFullName = 'Rohit Test User';
+  const testFullName = 'Example Test User';
 
   try {
     // 1. Fetch server public key

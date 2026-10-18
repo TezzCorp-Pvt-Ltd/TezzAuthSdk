@@ -19,12 +19,12 @@ All test projects strictly install and resolve from their official published reg
 
 | Folder | Platform | Language / Framework | Official Registry | Package Identifier | Published Version |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| [npm/](file:///c:/GitHub/rohit/account/sdk/examples/npm/) | Node.js / Web | JavaScript (ESM & CJS) | npmjs.org | `@tezzcorp/auth-sdk` | `2.0.0` |
-| [python/](file:///c:/GitHub/rohit/account/sdk/examples/python/) | Python | Python 3.9+ | pypi.org | `tezz-auth` | `2.0.0` |
-| [dotnet/](file:///c:/GitHub/rohit/account/sdk/examples/dotnet/) | .NET | C# (.NET 10 / 8) | nuget.org | `Tezz.Auth` | `2.0.0` |
-| [php/](file:///c:/GitHub/rohit/account/sdk/examples/php/) | PHP Backend | PHP 8.1+ | packagist.org | `tezz/auth-sdk` | `v2.0.0` |
-| [java-standard/](file:///c:/GitHub/rohit/account/sdk/examples/java-standard/) | Java Backend | Java 11+ | GitHub Packages | `com.tezz:auth-sdk` | `2.0.0` |
-| [android/](file:///c:/GitHub/rohit/account/sdk/examples/android/) | Android App | Java / Android SDK | GitHub Packages | `com.tezz.auth.android:auth-sdk-android` | `2.0.0` |
+| [npm/](./npm/) | Node.js / Web | JavaScript (ESM & CJS) | npmjs.org | `@tezzcorp/auth-sdk` | `2.0.0` |
+| [python/](./python/) | Python | Python 3.9+ | pypi.org | `tezz-auth` | `2.0.0` |
+| [dotnet/](./dotnet/) | .NET | C# (.NET 10 / 8) | nuget.org | `Tezz.Auth` | `2.0.0` |
+| [php/](./php/) | PHP Backend | PHP 8.1+ | packagist.org | `tezz/auth-sdk` | `v2.0.0` |
+| [java-standard/](./java-standard/) | Java Backend | Java 11+ | GitHub Packages | `com.tezz:auth-sdk` | `2.0.0` |
+| [android/](./android/) | Android App | Java / Android SDK | GitHub Packages | `com.tezz.auth.android:auth-sdk-android` | `2.0.0` |
 
 ---
 

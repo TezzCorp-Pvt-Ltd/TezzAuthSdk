@@ -52,7 +52,7 @@ $client = new TezzAuthClient();
 
 ### 1. Check Availability (Email or Phone)
 ```php
-$isAvailable = $client->checkAvailability('email', 'rohit@example.com');
+$isAvailable = $client->checkAvailability('email', 'example@tezzcorp.com');
 echo $isAvailable ? "Email is available\n" : "Email is taken\n";
 ```
 
@@ -66,8 +66,8 @@ use Tezz\Auth\Exceptions\TezzRateLimitException;
 
 try {
     $response = $client->register(
-        fullName: 'Rohit Sharma',
-        email: 'rohit@example.com',
+        fullName: 'Example User',
+        email: 'example@tezzcorp.com',
         phoneNumber: '+919876543210',
         password: 'SecurePassword@123',
         confirmPassword: 'SecurePassword@123'
@@ -82,7 +82,7 @@ try {
     // Present user choices:
     switch ($e->getConflictField()) {
         case 'email':
-            echo "1. Sign in with rohit@example.com\n";
+            echo "1. Sign in with example@tezzcorp.com\n";
             echo "2. Reset password via email OTP\n";
             echo "3. Use a different email address\n";
             break;
@@ -105,7 +105,7 @@ try {
 
 ### 3. User Login
 ```php
-$login = $client->login('rohit@example.com', 'SecurePassword@123');
+$login = $client->login('example@tezzcorp.com', 'SecurePassword@123');
 echo "Welcome back, " . $login->user->fullName . PHP_EOL;
 echo "Session Token: " . $login->token . PHP_EOL;
 ```
@@ -113,12 +113,12 @@ echo "Session Token: " . $login->token . PHP_EOL;
 ### 4. Forgot Password & OTP Reset Flow
 ```php
 // Step 1: Request OTP
-$forgot = $client->forgotPassword('rohit@example.com', 'email');
+$forgot = $client->forgotPassword('example@tezzcorp.com', 'email');
 echo $forgot->message . PHP_EOL;
 
 // Step 2: Verify OTP and reset password
 $reset = $client->resetPassword(
-    identifier: 'rohit@example.com',
+    identifier: 'example@tezzcorp.com',
     channel: 'email',
     otpCode: '123456',
     newPassword: 'BrandNewPassword@456',
