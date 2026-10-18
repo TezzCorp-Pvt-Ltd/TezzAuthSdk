@@ -159,4 +159,4 @@ TezzAuthException (base)
 ---
 
 ## License
-MIT (c) Tezz
+MIT License - Copyright (c) 2026 TezzCorp Pvt. Ltd.

@@ -6,8 +6,9 @@
     <Nullable>enable</Nullable>
     <PackageId>Tezz.Auth</PackageId>
     <Version>1.0.0</Version>
-    <Authors>Tezz</Authors>
-    <Company>Tezz</Company>
+    <Authors>TezzCorp Pvt. Ltd.</Authors>
+    <Company>TezzCorp Pvt. Ltd.</Company>
+    <Copyright>Copyright (c) 2026 TezzCorp Pvt. Ltd.</Copyright>
     <Description>Official .NET Client SDK for Tezz Auth</Description>
     <RepositoryUrl>https://github.com/TezzCorp-Pvt-Ltd/TezzAuthSdk.git</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
