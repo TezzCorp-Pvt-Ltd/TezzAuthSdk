@@ -109,7 +109,7 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          twine upload dist/*
+          twine upload --verbose dist/*
 
   # ─── 3. .NET C# (NuGet) ───────────────────────────────────────────────────────
   build-dotnet:
