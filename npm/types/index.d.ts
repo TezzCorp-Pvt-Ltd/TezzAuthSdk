@@ -1,5 +1,5 @@
 /**
- * TypeScript Type Definitions for @tezz/auth-sdk
+ * TypeScript Type Definitions for @tezzcorp/auth-sdk
  */
 
 export interface TezzClientOptions {
@@ -15,6 +15,10 @@ export interface TezzUser {
   phone_number: string;
   is_email_verified: boolean;
   is_phone_verified: boolean;
+  is_deletion_pending?: boolean;
+  scheduled_purge_at?: string | null;
+  deletion_requested_at?: string | null;
+  created_at?: string;
 }
 
 export interface RegisterInput {
@@ -83,6 +87,9 @@ export class TezzAuthClient {
   login(identifier: string, password: string): Promise<AuthSuccessResponse>;
   forgotPassword(identifier: string, channel: 'email' | 'phone'): Promise<SimpleMessageResponse>;
   resetPassword(input: ResetPasswordInput): Promise<SimpleMessageResponse>;
+  getProfile(token: string): Promise<{ success: boolean; user: TezzUser }>;
+  me(token: string): Promise<{ success: boolean; user: TezzUser }>;
+  cancelDeletion(token: string): Promise<SimpleMessageResponse>;
 }
 
 export function rsaEncrypt(publicKeyPem: string, plaintext: string): string;

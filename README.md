@@ -35,6 +35,9 @@ The Tezz Auth SDK Suite provides native, idiomatic client libraries for web, bac
 4. **Uniform Anti-Enumeration & Security**:
    All SDKs adhere to privacy-safe messaging for password recovery and account lookups.
 
+5. **Real-Time Profile & Session Management**:
+   Retrieve real-time user profiles, verification status, and deletion schedules via `getProfile(token)` / `me(token)`, and cancel pending deletions via `cancelDeletion(token)`.
+
 ---
 
 ## Quick Starts

@@ -128,6 +128,22 @@ AuthResponse reset = client.resetPassword(
 System.out.println(reset.getMessage()); // "Password has been reset successfully. You can now log in."
 ```
 
+### 5. Fetch User Profile & Verification Status
+```java
+// Fetch user details, real-time verification flags, and deletion schedule
+AuthResponse profile = client.getProfile(userToken);
+System.out.println("User Name: " + profile.getUser().getFullName());
+System.out.println("Email Verified: " + profile.getUser().isEmailVerified());
+System.out.println("Phone Verified: " + profile.getUser().isPhoneVerified());
+```
+
+### 6. Cancel Pending Account Deletion
+```java
+// Cancel pending 14-day deletion request
+AuthResponse cancelRes = client.cancelDeletion(userToken);
+System.out.println(cancelRes.getMessage()); // "Account deletion request has been cancelled successfully."
+```
+
 ---
 
 ## Error Hierarchy

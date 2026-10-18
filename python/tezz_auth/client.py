@@ -143,10 +143,32 @@ class TezzAuthClient:
         )
         return AuthResponse.from_dict(data)
 
-    def _request(self, endpoint: str, method: str, json_body: dict) -> dict:
+    def get_profile(self, token: str) -> AuthResponse:
+        """Fetch current authenticated user profile."""
+        data = self._request(
+            "/api/v1/auth/me",
+            method="GET",
+            headers={"Authorization": f"Bearer {token}"},
+        )
+        return AuthResponse.from_dict(data)
+
+    def me(self, token: str) -> AuthResponse:
+        """Alias for get_profile(token)."""
+        return self.get_profile(token)
+
+    def cancel_deletion(self, token: str) -> AuthResponse:
+        """Cancel pending 14-day account deletion."""
+        data = self._request(
+            "/api/v1/auth/cancel-deletion",
+            method="POST",
+            headers={"Authorization": f"Bearer {token}"},
+        )
+        return AuthResponse.from_dict(data)
+
+    def _request(self, endpoint: str, method: str, json_body: Optional[dict] = None, headers: Optional[dict] = None) -> dict:
         url = f"{self.base_url}{endpoint}"
         try:
-            resp = self._session.request(method, url, json=json_body, timeout=self.timeout)
+            resp = self._session.request(method, url, json=json_body, headers=headers, timeout=self.timeout)
             data = resp.json()
         except requests.RequestException as e:
             raise TezzAuthError(f"Network error: {str(e)}", 500)

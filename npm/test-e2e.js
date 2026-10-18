@@ -88,15 +88,23 @@ async function main() {
   }
 
   // 7. Forgot password privacy-safe response
-  console.log('[7/7] Testing forgot-password flow...');
+  console.log('[7/8] Testing forgot-password flow...');
   const forgot = await client.forgotPassword(testEmail, 'email');
   if (!forgot.success || !forgot.message.includes('If your account exists')) {
     throw new Error('Forgot password message violates privacy requirement');
   }
   console.log(`   [OK] Privacy-safe response: "${forgot.message.slice(0, 50)}..."`);
 
+  // 8. Test getProfile (me) endpoint
+  console.log('[8/8] Testing client.getProfile()...');
+  const profile = await client.getProfile(login.token);
+  if (!profile.success || profile.user.uuid !== reg.user.uuid) {
+    throw new Error('getProfile failed to return expected user');
+  }
+  console.log(`   [OK] Profile retrieved for ${profile.user.full_name} (${profile.user.email})`);
+
   console.log('\n======================================================');
-  console.log('Pure JavaScript SDK: ALL 7 TESTS PASSED FLAWLESSLY!');
+  console.log('Pure JavaScript SDK: ALL 8 TESTS PASSED FLAWLESSLY!');
   console.log('======================================================\n');
 }
 

@@ -128,7 +128,27 @@ const resetRes = await client.resetPassword({
 console.log(resetRes.message); // "Password has been reset successfully. You can now log in."
 ```
 
-### 5. Local RS256 JWT Verification (Offline)
+### 5. Fetch User Profile & Verification Status
+```javascript
+// Fetch user details, real-time verification flags, and deletion schedule
+const profile = await client.getProfile(userToken);
+console.log('User Name:', profile.user.full_name);
+console.log('Email Verified:', profile.user.is_email_verified);
+console.log('Phone Verified:', profile.user.is_phone_verified);
+
+if (profile.user.is_deletion_pending) {
+  console.warn('Account deletion scheduled for:', profile.user.scheduled_purge_at);
+}
+```
+
+### 6. Cancel Pending Account Deletion
+```javascript
+// Cancel 14-day deletion request directly with authenticated token
+const cancelRes = await client.cancelDeletion(userToken);
+console.log(cancelRes.message); // "Account deletion request has been cancelled successfully."
+```
+
+### 7. Local RS256 JWT Verification (Offline)
 Services in your infrastructure can verify user tokens locally using the server's public key without hitting the auth database:
 
 ```javascript

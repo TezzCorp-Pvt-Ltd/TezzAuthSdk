@@ -151,9 +151,46 @@ class TezzAuthClient {
   }
 
   /**
+   * Fetch current authenticated user profile
+   * @param {string} token - Bearer JWT session token
+   * @returns {Promise<{success: boolean, user: Object}>}
+   */
+  async getProfile(token) {
+    return this._request('/api/v1/auth/me', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  /**
+   * Alias for getProfile(token)
+   * @param {string} token
+   * @returns {Promise<{success: boolean, user: Object}>}
+   */
+  async me(token) {
+    return this.getProfile(token);
+  }
+
+  /**
+   * Cancel pending 14-day account deletion
+   * @param {string} token - Bearer JWT session token
+   * @returns {Promise<{success: boolean, message: string}>}
+   */
+  async cancelDeletion(token) {
+    return this._request('/api/v1/auth/cancel-deletion', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  /**
    * @private
    */
-  async _request(endpoint, { method, body }) {
+  async _request(endpoint, { method, body, headers = {} }) {
     const url = `${this.baseUrl}${endpoint}`;
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
@@ -161,7 +198,7 @@ class TezzAuthClient {
     try {
       const response = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...headers },
         body: body ? JSON.stringify(body) : undefined,
         signal: controller.signal,
       });

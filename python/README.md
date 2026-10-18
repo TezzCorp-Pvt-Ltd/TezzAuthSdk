@@ -116,7 +116,26 @@ reset = client.reset_password(
 print(reset.message)  # "Password has been reset successfully. You can now log in."
 ```
 
-### 5. Local RS256 JWT Verification (Offline)
+### 5. Fetch User Profile & Verification Status
+```python
+# Fetch user profile, real-time verification status, and deletion schedule
+profile = client.get_profile(token=user_token)
+print(f"User Name: {profile.user.full_name}")
+print(f"Email Verified: {profile.user.is_email_verified}")
+print(f"Phone Verified: {profile.user.is_phone_verified}")
+
+if profile.user.is_deletion_pending:
+    print(f"Account deletion scheduled for: {profile.user.scheduled_purge_at}")
+```
+
+### 6. Cancel Pending Account Deletion
+```python
+# Cancel pending 14-day deletion request
+cancel_res = client.cancel_deletion(token=user_token)
+print(cancel_res.message)  # "Account deletion request has been cancelled successfully."
+```
+
+### 7. Local RS256 JWT Verification (Offline)
 ```python
 import jwt
 

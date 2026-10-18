@@ -131,6 +131,54 @@ public class TezzAuthClient {
         return sendPost("/api/v1/auth/reset-password", body);
     }
 
+    public AuthResponse getProfile(String token) throws TezzAuthException {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(baseUrl + "/api/v1/auth/me"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .timeout(timeout)
+                .GET()
+                .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+            JSONObject json = new JSONObject(responseBody != null && !responseBody.isEmpty() ? responseBody : "{}");
+
+            if (response.statusCode() >= 400) {
+                throw new TezzAuthException(json.optString("message", "HTTP " + response.statusCode()), response.statusCode(), responseBody);
+            }
+            return AuthResponse.fromJson(json);
+        } catch (Exception e) {
+            if (e instanceof TezzAuthException) throw (TezzAuthException) e;
+            throw new TezzAuthException("Request failed: " + e.getMessage());
+        }
+    }
+
+    public AuthResponse cancelDeletion(String token) throws TezzAuthException {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(baseUrl + "/api/v1/auth/cancel-deletion"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .timeout(timeout)
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+            JSONObject json = new JSONObject(responseBody != null && !responseBody.isEmpty() ? responseBody : "{}");
+
+            if (response.statusCode() >= 400) {
+                throw new TezzAuthException(json.optString("message", "HTTP " + response.statusCode()), response.statusCode(), responseBody);
+            }
+            return AuthResponse.fromJson(json);
+        } catch (Exception e) {
+            if (e instanceof TezzAuthException) throw (TezzAuthException) e;
+            throw new TezzAuthException("Request failed: " + e.getMessage());
+        }
+    }
+
     private AuthResponse sendPost(String endpoint, JSONObject body) throws TezzAuthException {
         try {
             HttpRequest request = HttpRequest.newBuilder()
