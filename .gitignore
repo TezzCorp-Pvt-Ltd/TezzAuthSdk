@@ -12,6 +12,9 @@ local.properties
 *.class
 *.jar
 *.aar
+*.tgz
+*.nupkg
+*.snupkg
 bin/
 obj/
 *.suo

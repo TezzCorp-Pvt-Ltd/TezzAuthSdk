@@ -1,0 +1,254 @@
+name: Build and Release SDKs
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish packages to public registries (NPM, PyPI, NuGet)?'
+        required: true
+        type: boolean
+        default: false
+      create_github_release:
+        description: 'Create a GitHub Release with all built artifacts?'
+        required: true
+        type: boolean
+        default: true
+      version:
+        description: 'Release version tag (e.g. v1.0.0)'
+        required: false
+        default: 'v1.0.0'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  # ─── 1. JavaScript / TypeScript (NPM) ─────────────────────────────────────────
+  build-npm:
+    name: Build NPM Package
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: npm
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify syntax and package integrity
+        run: |
+          node -c src/index.js
+          node -c src/client.js
+          node -c src/crypto.js
+          node -c src/errors.js
+
+      - name: Pack NPM tarball
+        run: |
+          npm pack
+          mkdir -p dist
+          mv *.tgz dist/
+
+      - name: Upload NPM Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-sdk-tarball
+          path: npm/dist/*.tgz
+          retention-days: 7
+
+      - name: Publish to NPM Registry
+        if: ${{ github.event.inputs.publish == 'true' && env.NPM_TOKEN != '' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm publish dist/*.tgz --access public
+
+  # ─── 2. Python (PyPI) ─────────────────────────────────────────────────────────
+  build-python:
+    name: Build Python Package
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install build and packaging tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build Python sdist and wheel
+        run: |
+          python -m build
+
+      - name: Validate distribution files
+        run: |
+          twine check dist/*
+
+      - name: Upload Python Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-sdk-package
+          path: python/dist/*
+          retention-days: 7
+
+      - name: Publish to PyPI
+        if: ${{ github.event.inputs.publish == 'true' && env.TWINE_PASSWORD != '' }}
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          twine upload dist/*
+
+  # ─── 3. .NET C# (NuGet) ───────────────────────────────────────────────────────
+  build-dotnet:
+    name: Build .NET NuGet Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore dotnet/Tezz.Auth/Tezz.Auth.csproj
+
+      - name: Build in Release mode
+        run: dotnet build dotnet/Tezz.Auth/Tezz.Auth.csproj -c Release --no-restore
+
+      - name: Pack NuGet package
+        run: dotnet pack dotnet/Tezz.Auth/Tezz.Auth.csproj -c Release -o dotnet/dist --no-build
+
+      - name: Upload .NET Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-sdk-nuget
+          path: dotnet/dist/*
+          retention-days: 7
+
+      - name: Publish to NuGet.org
+        if: ${{ github.event.inputs.publish == 'true' && env.NUGET_API_KEY != '' }}
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push dotnet/dist/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+  # ─── 4. PHP Composer ──────────────────────────────────────────────────────────
+  build-php:
+    name: Validate PHP Package
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: php
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: openssl, curl, json
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Create archive for distribution
+        run: |
+          mkdir -p dist
+          zip -r dist/tezz-auth-sdk-php.zip src/ composer.json README.md
+
+      - name: Upload PHP Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-sdk-package
+          path: php/dist/*.zip
+          retention-days: 7
+
+  # ─── 5. Java Standard (Maven) ────────────────────────────────────────────────
+  build-java:
+    name: Build Java Standard Package
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: java/standard
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build JAR package with Maven
+        run: mvn -B clean package
+
+      - name: Upload Java Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-sdk-jar
+          path: java/standard/target/*.jar
+          retention-days: 7
+
+  # ─── 6. GitHub Release with Consolidated Artifacts ───────────────────────────
+  release:
+    name: Create GitHub Release
+    needs: [build-npm, build-python, build-dotnet, build-php, build-java]
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.create_github_release == 'true' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all workflow artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+
+      - name: Consolidate distribution assets
+        run: |
+          mkdir -p dist-all
+          find release-artifacts/ -type f \( -name "*.tgz" -o -name "*.whl" -o -name "*.tar.gz" -o -name "*.nupkg" -o -name "*.zip" -o -name "*.jar" \) -exec cp {} dist-all/ \;
+          echo "Consolidated assets for release:"
+          ls -lah dist-all/
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: Release ${{ github.event.inputs.version }}
+          draft: false
+          prerelease: false
+          files: dist-all/*
+          body: |
+            ## Tezz Auth Multi-Platform SDK Suite (${{ github.event.inputs.version }})
+
+            Official client libraries for Tezz Auth (`account.tezzcorp.com`).
+
+            ### Built Release Artifacts Attached
+            - **JavaScript / TypeScript (NPM)**: `.tgz` tarball package
+            - **Python (PyPI)**: Wheel (`.whl`) and source distribution (`.tar.gz`)
+            - **.NET C# (NuGet)**: Package (`.nupkg`) targeting .NET 8.0 LTS and .NET 10.0
+            - **PHP (Composer)**: Distribution `.zip`
+            - **Java Standard (Maven)**: Pre-compiled `.jar`
+
+            ### License
+            MIT License - Copyright (c) 2026 TezzCorp Pvt. Ltd.

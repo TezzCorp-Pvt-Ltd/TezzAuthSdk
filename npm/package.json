@@ -12,6 +12,11 @@
     }
   },
   "types": "./types/index.d.ts",
+  "files": [
+    "src",
+    "types",
+    "README.md"
+  ],
   "engines": {
     "node": ">=18.0.0"
   },

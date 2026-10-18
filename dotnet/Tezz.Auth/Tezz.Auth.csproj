@@ -12,6 +12,11 @@
     <Description>Official .NET Client SDK for Tezz Auth</Description>
     <RepositoryUrl>https://github.com/TezzCorp-Pvt-Ltd/TezzAuthSdk.git</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
