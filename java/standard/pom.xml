@@ -24,4 +24,12 @@
             <version>20240303</version>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/TezzCorp-Pvt-Ltd/TezzAuthSdk</url>
+        </repository>
+    </distributionManagement>
 </project>

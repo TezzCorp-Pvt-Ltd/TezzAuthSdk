@@ -152,6 +152,13 @@ jobs:
         run: |
           dotnet nuget push dotnet/dist/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate || echo "::warning::NuGet publish failed or version already published."
 
+      - name: Publish to GitHub Packages (NuGet)
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          dotnet nuget push dotnet/dist/*.nupkg --api-key "$GITHUB_TOKEN" --source https://nuget.pkg.github.com/TezzCorp-Pvt-Ltd/index.json --skip-duplicate || echo "::warning::GitHub Packages NuGet publish failed or already exists."
+
   # ─── 4. PHP Composer ──────────────────────────────────────────────────────────
   build-php:
     name: Validate PHP Package
@@ -200,9 +207,18 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          server-id: github
+          settings-path: ${{ github.workspace }}
 
       - name: Build JAR package with Maven
         run: mvn -B clean package
+
+      - name: Publish to GitHub Packages (Maven)
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mvn -B deploy -DskipTests -s ${{ github.workspace }}/settings.xml || echo "::warning::GitHub Packages Maven deploy failed or already exists."
 
       - name: Upload Java Artifact
         uses: actions/upload-artifact@v4
