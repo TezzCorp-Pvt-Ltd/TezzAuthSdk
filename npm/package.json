@@ -1,6 +1,6 @@
 {
   "name": "@tezzcorp/auth-sdk",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Official pure JavaScript SDK for Tezz Auth",
   "main": "./src/index.js",
   "module": "./src/index.mjs",
@@ -32,6 +32,8 @@
   "author": "TezzCorp Pvt. Ltd.",
   "license": "MIT",
   "scripts": {
-    "test": "node test-e2e.js"
+    "test": "node test-e2e.js",
+    "version:check": "node ../scripts/version-manager.js check",
+    "version:bump": "node ../scripts/version-manager.js bump"
   }
 }

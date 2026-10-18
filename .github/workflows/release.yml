@@ -3,6 +3,21 @@ name: Build and Release SDKs
 on:
   workflow_dispatch:
     inputs:
+      action:
+        description: 'Release action: inspect suggestions or release'
+        required: true
+        type: choice
+        options:
+          - 'suggest_only'
+          - 'release_minor'
+          - 'release_patch'
+          - 'release_major'
+          - 'release_custom'
+        default: 'suggest_only'
+      custom_version:
+        description: 'Target version if action is release_custom (e.g. v1.1.0)'
+        required: false
+        default: ''
       publish:
         description: 'Publish packages to public registries (NPM, PyPI, NuGet)?'
         required: true
@@ -13,26 +28,90 @@ on:
         required: true
         type: boolean
         default: true
-      version:
-        description: 'Release version tag (e.g. v1.0.0)'
-        required: false
-        default: 'v1.0.0'
 
 permissions:
   contents: write
   packages: write
 
 jobs:
-  # ─── 1. JavaScript / TypeScript (NPM) ─────────────────────────────────────────
-  build-npm:
-    name: Build NPM Package
+  # ─── 0. Version Inspection & Resolution ─────────────────────────────────────
+  inspect-and-resolve:
+    name: Inspect Released Versions & Suggestions
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: npm
+    outputs:
+      proceed: ${{ steps.resolve.outputs.proceed }}
+      target_version: ${{ steps.resolve.outputs.target_version }}
+      target_tag: ${{ steps.resolve.outputs.target_tag }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Analyze released versions and suggestions
+        id: analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/version-manager.js suggest
+
+      - name: Resolve and validate target version
+        id: resolve
+        run: |
+          ACTION="${{ github.event.inputs.action }}"
+          SUGGESTED_MINOR="${{ steps.analyze.outputs.suggested_minor }}"
+          SUGGESTED_PATCH="${{ steps.analyze.outputs.suggested_patch }}"
+          SUGGESTED_MAJOR="${{ steps.analyze.outputs.suggested_major }}"
+          CUSTOM_VER="${{ github.event.inputs.custom_version }}"
+
+          echo "Requested release action: $ACTION"
+
+          if [ "$ACTION" = "suggest_only" ]; then
+            echo "Action is 'suggest_only'. Full release analysis has been posted to Step Summary."
+            echo "No packages will be built or published."
+            echo "proceed=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          TARGET=""
+          if [ "$ACTION" = "release_minor" ]; then
+            TARGET="$SUGGESTED_MINOR"
+          elif [ "$ACTION" = "release_patch" ]; then
+            TARGET="$SUGGESTED_PATCH"
+          elif [ "$ACTION" = "release_major" ]; then
+            TARGET="$SUGGESTED_MAJOR"
+          elif [ "$ACTION" = "release_custom" ]; then
+            TARGET="${CUSTOM_VER#v}"
+          fi
+
+          if [ -z "$TARGET" ]; then
+            echo "::error::Could not resolve target version for action '$ACTION'."
+            exit 1
+          fi
+
+          echo "Target resolved version: $TARGET (v$TARGET)"
+          echo "Validating that target version has not already been released..."
+          node scripts/version-manager.js validate "$TARGET"
+
+          echo "proceed=true" >> $GITHUB_OUTPUT
+          echo "target_version=$TARGET" >> $GITHUB_OUTPUT
+          echo "target_tag=v$TARGET" >> $GITHUB_OUTPUT
+
+  # ─── 1. JavaScript / TypeScript (NPM) ─────────────────────────────────────────
+  build-npm:
+    name: Build NPM Package
+    needs: inspect-and-resolve
+    if: needs.inspect-and-resolve.outputs.proceed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -40,7 +119,11 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Synchronize package manifests to target version
+        run: node scripts/version-manager.js bump ${{ needs.inspect-and-resolve.outputs.target_version }}
+
       - name: Verify syntax and package integrity
+        working-directory: npm
         run: |
           node -c src/index.js
           node -c src/client.js
@@ -48,6 +131,7 @@ jobs:
           node -c src/errors.js
 
       - name: Pack NPM tarball
+        working-directory: npm
         run: |
           npm pack
           mkdir -p dist
@@ -62,6 +146,7 @@ jobs:
 
       - name: Publish to NPM Registry
         if: ${{ github.event.inputs.publish == 'true' }}
+        working-directory: npm
         continue-on-error: true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NODE_AUTH_TOKEN || secrets.NPM_AUTH_TOKEN }}
@@ -73,6 +158,7 @@ jobs:
           fi
 
       - name: Publish to GitHub Packages (NPM)
+        working-directory: npm
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -92,13 +178,22 @@ jobs:
   # ─── 2. Python (PyPI) ─────────────────────────────────────────────────────────
   build-python:
     name: Build Python Package
+    needs: inspect-and-resolve
+    if: needs.inspect-and-resolve.outputs.proceed == 'true'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: python
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Synchronize package manifests to target version
+        run: node scripts/version-manager.js bump ${{ needs.inspect-and-resolve.outputs.target_version }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -106,17 +201,18 @@ jobs:
           python-version: '3.11'
 
       - name: Install build and packaging tools
+        working-directory: python
         run: |
           python -m pip install --upgrade pip
           pip install build twine
 
       - name: Build Python sdist and wheel
-        run: |
-          python -m build
+        working-directory: python
+        run: python -m build
 
       - name: Validate distribution files
-        run: |
-          twine check dist/*
+        working-directory: python
+        run: twine check dist/*
 
       - name: Upload Python Artifact
         uses: actions/upload-artifact@v4
@@ -127,6 +223,7 @@ jobs:
 
       - name: Publish to PyPI
         if: ${{ github.event.inputs.publish == 'true' }}
+        working-directory: python
         continue-on-error: true
         env:
           TWINE_USERNAME: __token__
@@ -141,10 +238,22 @@ jobs:
   # ─── 3. .NET C# (NuGet) ───────────────────────────────────────────────────────
   build-dotnet:
     name: Build .NET NuGet Package
+    needs: inspect-and-resolve
+    if: needs.inspect-and-resolve.outputs.proceed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Synchronize package manifests to target version
+        run: node scripts/version-manager.js bump ${{ needs.inspect-and-resolve.outputs.target_version }}
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
@@ -191,13 +300,14 @@ jobs:
   # ─── 4. PHP Composer ──────────────────────────────────────────────────────────
   build-php:
     name: Validate PHP Package
+    needs: inspect-and-resolve
+    if: needs.inspect-and-resolve.outputs.proceed == 'true'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: php
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -206,9 +316,11 @@ jobs:
           extensions: openssl, curl, json
 
       - name: Validate composer.json
+        working-directory: php
         run: composer validate --strict
 
       - name: Create archive for distribution
+        working-directory: php
         run: |
           mkdir -p dist
           zip -r dist/tezz-auth-sdk-php.zip src/ composer.json README.md
@@ -223,13 +335,22 @@ jobs:
   # ─── 5. Java Standard (Maven) ────────────────────────────────────────────────
   build-java:
     name: Build Java Standard Package
+    needs: inspect-and-resolve
+    if: needs.inspect-and-resolve.outputs.proceed == 'true'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: java/standard
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Synchronize package manifests to target version
+        run: node scripts/version-manager.js bump ${{ needs.inspect-and-resolve.outputs.target_version }}
 
       - name: Setup Java JDK
         uses: actions/setup-java@v4
@@ -240,9 +361,11 @@ jobs:
           settings-path: ${{ github.workspace }}
 
       - name: Build JAR package with Maven
+        working-directory: java/standard
         run: mvn -B clean package
 
       - name: Publish to GitHub Packages (Maven)
+        working-directory: java/standard
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -259,13 +382,22 @@ jobs:
   # ─── 6. Android (AAR Library) ────────────────────────────────────────────────
   build-android:
     name: Build Android AAR Library
+    needs: inspect-and-resolve
+    if: needs.inspect-and-resolve.outputs.proceed == 'true'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: java/android
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Synchronize package manifests to target version
+        run: node scripts/version-manager.js bump ${{ needs.inspect-and-resolve.outputs.target_version }}
 
       - name: Setup Java JDK
         uses: actions/setup-java@v4
@@ -279,9 +411,11 @@ jobs:
           gradle-version: '8.6'
 
       - name: Build Android AAR Library
+        working-directory: java/android
         run: gradle assembleRelease --stacktrace
 
       - name: Publish Android AAR to GitHub Packages (Maven)
+        working-directory: java/android
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -298,9 +432,9 @@ jobs:
   # ─── 7. GitHub Release with Consolidated Artifacts ───────────────────────────
   release:
     name: Create GitHub Release
-    needs: [build-npm, build-python, build-dotnet, build-php, build-java, build-android]
+    needs: [inspect-and-resolve, build-npm, build-python, build-dotnet, build-php, build-java, build-android]
     runs-on: ubuntu-latest
-    if: ${{ always() && !cancelled() && github.event.inputs.create_github_release == 'true' }}
+    if: ${{ always() && !cancelled() && needs.inspect-and-resolve.outputs.proceed == 'true' && github.event.inputs.create_github_release == 'true' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -314,8 +448,8 @@ jobs:
       - name: Consolidate and label distribution assets
         run: |
           mkdir -p dist-all
-          VERSION="${{ github.event.inputs.version }}"
-          VERSION_CLEAN="${VERSION#v}"
+          VERSION_CLEAN="${{ needs.inspect-and-resolve.outputs.target_version }}"
+          VERSION_TAG="${{ needs.inspect-and-resolve.outputs.target_tag }}"
 
           # 1. JavaScript / TypeScript (NPM)
           find release-artifacts/ -name "*.tgz" -exec cp {} "dist-all/tezz-auth-javascript-sdk-${VERSION_CLEAN}.tgz" \; 2>/dev/null || true
@@ -344,24 +478,24 @@ jobs:
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.version }}
-          name: Release ${{ github.event.inputs.version }}
+          tag_name: ${{ needs.inspect-and-resolve.outputs.target_tag }}
+          name: Release ${{ needs.inspect-and-resolve.outputs.target_tag }}
           draft: false
           prerelease: false
           files: dist-all/*
           fail_on_unmatched_files: false
           body: |
-            ## Tezz Auth Multi-Platform SDK Suite (${{ github.event.inputs.version }})
+            ## Tezz Auth Multi-Platform SDK Suite (${{ needs.inspect-and-resolve.outputs.target_tag }})
 
             Official client libraries for Tezz Auth (`account.tezzcorp.com`).
 
             ### Attached Downloadable Packages
-            - **JavaScript / Node.js**: `tezz-auth-javascript-sdk-${{ github.event.inputs.version }}.tgz`
-            - **Python**: `tezz-auth-python-sdk-${{ github.event.inputs.version }}.whl` & `.tar.gz`
-            - **.NET (C#)**: `tezz-auth-dotnet-sdk-${{ github.event.inputs.version }}.nupkg`
-            - **PHP**: `tezz-auth-php-sdk-${{ github.event.inputs.version }}.zip`
-            - **Java Standard**: `tezz-auth-java-standard-sdk-${{ github.event.inputs.version }}.jar`
-            - **Android (Java/Kotlin)**: `tezz-auth-android-sdk-${{ github.event.inputs.version }}.aar`
+            - **JavaScript / Node.js**: `tezz-auth-javascript-sdk-${{ needs.inspect-and-resolve.outputs.target_version }}.tgz`
+            - **Python**: `tezz-auth-python-sdk-${{ needs.inspect-and-resolve.outputs.target_version }}.whl` & `.tar.gz`
+            - **.NET (C#)**: `tezz-auth-dotnet-sdk-${{ needs.inspect-and-resolve.outputs.target_version }}.nupkg`
+            - **PHP**: `tezz-auth-php-sdk-${{ needs.inspect-and-resolve.outputs.target_version }}.zip`
+            - **Java Standard**: `tezz-auth-java-standard-sdk-${{ needs.inspect-and-resolve.outputs.target_version }}.jar`
+            - **Android (Java/Kotlin)**: `tezz-auth-android-sdk-${{ needs.inspect-and-resolve.outputs.target_version }}.aar`
 
             ### License
             MIT License - Copyright (c) 2026 TezzCorp Pvt. Ltd.
