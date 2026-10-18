@@ -12,7 +12,7 @@ The Tezz Auth SDK Suite provides native, idiomatic client libraries for web, bac
 
 | Platform | Package | Directory | Requirements |
 |---|---|---|---|
-| **JavaScript / TypeScript** | `@tezz/auth-sdk` | `npm/` | Node.js 18+ (Pure JS, zero external dependencies) |
+| **JavaScript / TypeScript** | `@tezzcorp/auth-sdk` | `npm/` | Node.js 18+ (Pure JS, zero external dependencies) |
 | **Python** | `tezz-auth` | `python/` | Python 3.9+ (`requests`, `cryptography`) |
 | **PHP** | `tezz/auth-sdk` | `php/` | PHP 8.1+ (`ext-curl`, `ext-openssl`, `ext-json`) |
 | **.NET (C#)** | `Tezz.Auth` | `dotnet/` | .NET 8.0 LTS / .NET 10.0 (Pure C#, zero external dependencies) |
@@ -41,14 +41,14 @@ The Tezz Auth SDK Suite provides native, idiomatic client libraries for web, bac
 
 All SDKs come pre-configured to connect directly to the central authentication service at `https://account.tezzcorp.com`. Developers do not need to configure any URL to get started.
 
-### 1. JavaScript / TypeScript (`@tezz/auth-sdk`)
+### 1. JavaScript / TypeScript (`@tezzcorp/auth-sdk`)
 
 ```bash
-npm install @tezz/auth-sdk
+npm install @tezzcorp/auth-sdk
 ```
 
 ```javascript
-const { TezzAuthClient, TezzConflictError } = require('@tezz/auth-sdk');
+const { TezzAuthClient, TezzConflictError } = require('@tezzcorp/auth-sdk');
 
 // Pre-configured to https://account.tezzcorp.com
 const client = new TezzAuthClient();

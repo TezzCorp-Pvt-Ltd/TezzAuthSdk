@@ -1,5 +1,5 @@
 {
-  "name": "@tezz/auth-sdk",
+  "name": "@tezzcorp/auth-sdk",
   "version": "1.0.0",
   "description": "Official pure JavaScript SDK for Tezz Auth",
   "main": "./src/index.js",
