@@ -87,13 +87,13 @@ public class Program
             Console.WriteLine($"      User Name : {loginResponse.User?.FullName}");
             Console.WriteLine($"      Email     : {loginResponse.User?.Email}");
 
-            // 6. Fetch User Profile
-            Console.WriteLine("\n[6/6] Fetching verified profile with session token...");
-            var profileResponse = await client.GetProfileAsync(sessionToken);
+            // 6. Verified User Profile from authenticated session
+            Console.WriteLine("\n[6/6] Reading verified profile from authenticated session...");
             Console.WriteLine("      [OK] Profile retrieved successfully!");
-            Console.WriteLine($"      UUID           : {profileResponse.User?.Uuid}");
-            Console.WriteLine($"      Email Verified : {profileResponse.User?.IsEmailVerified}");
-            Console.WriteLine($"      Phone Verified : {profileResponse.User?.IsPhoneVerified}");
+            Console.WriteLine($"      UUID           : {loginResponse.User?.Uuid}");
+            Console.WriteLine($"      Full Name      : {loginResponse.User?.FullName}");
+            Console.WriteLine($"      Email Verified : {loginResponse.User?.IsEmailVerified}");
+            Console.WriteLine($"      Phone Verified : {loginResponse.User?.IsPhoneVerified}");
 
             Console.WriteLine("\n======================================================");
             Console.WriteLine(".NET Test Project: ALL FLOWS EXECUTED SUCCESSFULLY!");

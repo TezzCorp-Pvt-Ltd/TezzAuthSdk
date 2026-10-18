@@ -19,11 +19,8 @@ android {
 }
 
 dependencies {
-    // Reference local Android SDK project
-    implementation project(':sdk')
-
-    // For production remote artifact consumption from GitHub Packages Maven:
-    // implementation 'com.tezz.auth.android:auth-sdk-android:1.1.0'
+    // Strictly consume published library from GitHub Packages Maven repository
+    implementation 'com.tezz.auth.android:auth-sdk-android:2.0.0'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'

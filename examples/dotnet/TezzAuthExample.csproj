@@ -9,12 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Local SDK Reference for immediate out-of-the-box building -->
-    <ProjectReference Include="..\..\dotnet\Tezz.Auth\Tezz.Auth.csproj" />
-
-    <!-- For production NuGet package consumption, replace ProjectReference with:
-    <PackageReference Include="Tezz.Auth" Version="1.1.0" />
-    -->
+    <!-- Strictly consuming published NuGet package -->
+    <PackageReference Include="Tezz.Auth" Version="2.0.0" />
   </ItemGroup>
 
 </Project>

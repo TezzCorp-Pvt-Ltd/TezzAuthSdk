@@ -15,15 +15,8 @@ import os
 import sys
 import time
 
-# Fallback to local SDK path if package is not yet installed in site-packages
-try:
-    from tezz_auth import TezzAuthClient
-    from tezz_auth.exceptions import TezzConflictError, TezzAuthError
-except ImportError:
-    sdk_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "python"))
-    sys.path.insert(0, sdk_dir)
-    from tezz_auth import TezzAuthClient
-    from tezz_auth.exceptions import TezzConflictError, TezzAuthError
+from tezz_auth import TezzAuthClient
+from tezz_auth.exceptions import TezzConflictError, TezzAuthError
 
 
 def main() -> None:

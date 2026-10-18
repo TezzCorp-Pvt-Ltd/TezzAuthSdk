@@ -12,13 +12,7 @@
  * 8. Account deletion cancellation flow (cancelDeletion)
  */
 
-let TezzAuth;
-try {
-  TezzAuth = require('@tezzcorp/auth-sdk');
-} catch (err) {
-  TezzAuth = require('../../npm');
-}
-const { TezzAuthClient, TezzConflictError, TezzValidationError } = TezzAuth;
+const { TezzAuthClient, TezzConflictError, TezzValidationError } = require('@tezzcorp/auth-sdk');
 
 async function runExample() {
   const baseUrl = process.env.TEZZ_AUTH_URL || 'https://account.tezzcorp.com';

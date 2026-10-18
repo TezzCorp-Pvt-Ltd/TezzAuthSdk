@@ -1,4 +1,2 @@
 rootProject.name = "TezzAuthAndroidExample"
 include ':app'
-include ':sdk'
-project(':sdk').projectDir = new File(rootDir, '../../java/android')

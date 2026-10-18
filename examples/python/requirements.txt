@@ -1,6 +1,2 @@
-# Tezz Auth Python SDK Example Dependencies
-# To install from PyPI:
-# pip install tezz-auth>=1.0.0
-
-requests>=2.28.0
-cryptography>=41.0.0
+# Tezz Auth Python SDK Example - PyPI Dependencies
+tezz-auth>=2.0.0

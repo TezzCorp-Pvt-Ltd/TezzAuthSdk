@@ -1,6 +1,6 @@
 {
   "name": "example/tezz-auth-php-example",
-  "description": "Standalone test project demonstrating tezz/auth-sdk in PHP",
+  "description": "Standalone test project demonstrating published tezz/auth-sdk from Packagist",
   "type": "project",
   "license": "MIT",
   "require": {
@@ -8,12 +8,6 @@
     "ext-curl": "*",
     "ext-openssl": "*",
     "ext-json": "*",
-    "tezz/auth-sdk": "*"
-  },
-  "repositories": [
-    {
-      "type": "path",
-      "url": "../../php"
-    }
-  ]
+    "tezz/auth-sdk": "^2.0"
+  }
 }

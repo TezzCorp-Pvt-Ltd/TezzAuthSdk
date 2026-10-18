@@ -1,0 +1,68 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d454fe4d1ee4cb2d761dc1ae19f98318",
+    "packages": [
+        {
+            "name": "tezz/auth-sdk",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TezzCorp-Pvt-Ltd/TezzAuthSdk.git",
+                "reference": "ffd83092420c16d98a91c3cd4345c90836550c7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TezzCorp-Pvt-Ltd/TezzAuthSdk/zipball/ffd83092420c16d98a91c3cd4345c90836550c7d",
+                "reference": "ffd83092420c16d98a91c3cd4345c90836550c7d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tezz\\Auth\\": "php/src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "TezzCorp Pvt. Ltd.",
+                    "email": "dev@tezzcorp.com"
+                }
+            ],
+            "description": "Official PHP SDK for Tezz Auth",
+            "homepage": "https://account.tezzcorp.com",
+            "support": {
+                "issues": "https://github.com/TezzCorp-Pvt-Ltd/TezzAuthSdk/issues",
+                "source": "https://github.com/TezzCorp-Pvt-Ltd/TezzAuthSdk"
+            },
+            "time": "2026-10-18T10:05:07+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=8.1",
+        "ext-curl": "*",
+        "ext-openssl": "*",
+        "ext-json": "*"
+    },
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}

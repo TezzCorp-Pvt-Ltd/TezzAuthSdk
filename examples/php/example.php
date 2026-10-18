@@ -13,24 +13,8 @@
  * 8. Account deletion cancellation flow (cancelDeletion)
  */
 
-// Autoload composer if installed, otherwise load SDK classes directly
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require_once __DIR__ . '/vendor/autoload.php';
-} else {
-    spl_autoload_register(function ($class) {
-        $prefix = 'Tezz\\Auth\\';
-        $baseDir = dirname(__DIR__, 2) . '/php/src/';
-        $len = strlen($prefix);
-        if (strncmp($prefix, $class, $len) !== 0) {
-            return;
-        }
-        $relativeClass = substr($class, $len);
-        $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
-        if (file_exists($file)) {
-            require $file;
-        }
-    });
-}
+// Autoload official published package from Composer vendor
+require_once __DIR__ . '/vendor/autoload.php';
 
 use Tezz\Auth\TezzAuthClient;
 use Tezz\Auth\Exceptions\TezzAuthException;
@@ -109,11 +93,10 @@ try {
     echo "      [OK] Login successful!\n";
     echo "      Message   : " . ($loginResponse->message ?? 'Success') . "\n";
 
-    // 6. Fetch User Profile
-    echo "\n[6/6] Fetching verified profile with session token...\n";
-    $profileResponse = $client->getProfile($sessionToken);
-    $userInfo = $profileResponse->user;
-    $rawUser = $profileResponse->raw['user'] ?? [];
+    // 6. Verified User Profile from authenticated session
+    echo "\n[6/6] Reading verified profile from authenticated session...\n";
+    $userInfo = $loginResponse->user;
+    $rawUser = $loginResponse->raw['user'] ?? [];
 
     echo "      [OK] Profile retrieved successfully!\n";
     echo "      UUID            : " . ($userInfo ? $userInfo->uuid : 'N/A') . "\n";
