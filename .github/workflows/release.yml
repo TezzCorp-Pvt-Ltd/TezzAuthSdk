@@ -67,7 +67,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NODE_AUTH_TOKEN || secrets.NPM_AUTH_TOKEN }}
         run: |
           if [ -n "$NODE_AUTH_TOKEN" ]; then
-            npm publish dist/*.tgz --access public || echo "::warning::NPM publish failed or version already published."
+            npm publish --access public || echo "::warning::NPM publish failed or version already published."
           else
             echo "::warning::NPM_TOKEN secret not provided. Skipping public NPM publish."
           fi
