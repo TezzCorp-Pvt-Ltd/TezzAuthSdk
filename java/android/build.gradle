@@ -9,6 +9,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 repositories {
     google()
@@ -31,6 +32,33 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    publishing {
+        singleVariant('release')
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.tezz.auth.android'
+                artifactId = 'auth-sdk-android'
+                version = '1.0.0'
+            }
+        }
+        repositories {
+            maven {
+                name = 'GitHubPackages'
+                url = uri('https://maven.pkg.github.com/TezzCorp-Pvt-Ltd/TezzAuthSdk')
+                credentials {
+                    username = System.getenv('GITHUB_ACTOR') ?: 'TezzCorp-Pvt-Ltd'
+                    password = System.getenv('GITHUB_TOKEN')
+                }
+            }
+        }
     }
 }
 

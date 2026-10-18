@@ -252,6 +252,13 @@ jobs:
       - name: Build Android AAR Library
         run: gradle assembleRelease --stacktrace
 
+      - name: Publish Android AAR to GitHub Packages (Maven)
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: gradle publishReleasePublicationToGitHubPackagesRepository || echo "::warning::Android AAR GitHub Packages publish failed."
+
       - name: Upload Android AAR Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -275,11 +282,34 @@ jobs:
         with:
           path: release-artifacts
 
-      - name: Consolidate distribution assets
+      - name: Consolidate and label distribution assets
         run: |
           mkdir -p dist-all
-          find release-artifacts/ -type f \( -name "*.tgz" -o -name "*.whl" -o -name "*.tar.gz" -o -name "*.nupkg" -o -name "*.zip" -o -name "*.jar" -o -name "*.aar" \) -exec cp {} dist-all/ \; || true
-          echo "Consolidated assets for release:"
+          VERSION="${{ github.event.inputs.version }}"
+          VERSION_CLEAN="${VERSION#v}"
+
+          # 1. JavaScript / TypeScript (NPM)
+          find release-artifacts/ -name "*.tgz" -exec cp {} "dist-all/tezz-auth-javascript-sdk-${VERSION_CLEAN}.tgz" \; 2>/dev/null || true
+
+          # 2. Python (PyPI)
+          find release-artifacts/ -name "*.whl" -exec cp {} "dist-all/tezz-auth-python-sdk-${VERSION_CLEAN}.whl" \; 2>/dev/null || true
+          find release-artifacts/ -name "*.tar.gz" -exec cp {} "dist-all/tezz-auth-python-sdk-${VERSION_CLEAN}.tar.gz" \; 2>/dev/null || true
+          find release-artifacts/ -name "*.whl" -exec cp {} dist-all/ \; 2>/dev/null || true
+
+          # 3. .NET C# (NuGet)
+          find release-artifacts/ -name "*.nupkg" -exec cp {} "dist-all/tezz-auth-dotnet-sdk-${VERSION_CLEAN}.nupkg" \; 2>/dev/null || true
+          find release-artifacts/ -name "*.nupkg" -exec cp {} dist-all/ \; 2>/dev/null || true
+
+          # 4. PHP Composer
+          find release-artifacts/ -name "*.zip" -exec cp {} "dist-all/tezz-auth-php-sdk-${VERSION_CLEAN}.zip" \; 2>/dev/null || true
+
+          # 5. Java Standard (Maven)
+          find release-artifacts/java-sdk-jar -name "*.jar" -exec cp {} "dist-all/tezz-auth-java-standard-sdk-${VERSION_CLEAN}.jar" \; 2>/dev/null || true
+
+          # 6. Android Library (AAR)
+          find release-artifacts/android-sdk-aar -name "*.aar" -exec cp {} "dist-all/tezz-auth-android-sdk-${VERSION_CLEAN}.aar" \; 2>/dev/null || true
+
+          echo "Consolidated cleanly named assets for release:"
           ls -lah dist-all/
 
       - name: Publish GitHub Release
@@ -296,13 +326,13 @@ jobs:
 
             Official client libraries for Tezz Auth (`account.tezzcorp.com`).
 
-            ### Built Release Artifacts Attached
-            - **JavaScript / TypeScript (NPM)**: `.tgz` tarball package
-            - **Python (PyPI)**: Wheel (`.whl`) and source distribution (`.tar.gz`)
-            - **.NET C# (NuGet)**: Package (`.nupkg`) targeting .NET 8.0 LTS and .NET 10.0
-            - **PHP (Composer)**: Distribution `.zip`
-            - **Java Standard (Maven)**: Pre-compiled `.jar`
-            - **Android (AAR)**: Pre-compiled `.aar` library
+            ### Attached Downloadable Packages
+            - **JavaScript / Node.js**: `tezz-auth-javascript-sdk-${{ github.event.inputs.version }}.tgz`
+            - **Python**: `tezz-auth-python-sdk-${{ github.event.inputs.version }}.whl` & `.tar.gz`
+            - **.NET (C#)**: `tezz-auth-dotnet-sdk-${{ github.event.inputs.version }}.nupkg`
+            - **PHP**: `tezz-auth-php-sdk-${{ github.event.inputs.version }}.zip`
+            - **Java Standard**: `tezz-auth-java-standard-sdk-${{ github.event.inputs.version }}.jar`
+            - **Android (Java/Kotlin)**: `tezz-auth-android-sdk-${{ github.event.inputs.version }}.aar`
 
             ### License
             MIT License - Copyright (c) 2026 TezzCorp Pvt. Ltd.
