@@ -64,7 +64,7 @@ jobs:
         if: ${{ github.event.inputs.publish == 'true' }}
         continue-on-error: true
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NODE_AUTH_TOKEN || secrets.NPM_AUTH_TOKEN }}
         run: |
           if [ -n "$NODE_AUTH_TOKEN" ]; then
             npm publish dist/*.tgz --access public || echo "::warning::NPM publish failed or version already published."
@@ -130,7 +130,7 @@ jobs:
         continue-on-error: true
         env:
           TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN || secrets.PYPI_TOKEN || secrets.TWINE_PASSWORD }}
         run: |
           if [ -n "$TWINE_PASSWORD" ]; then
             twine upload --verbose --skip-existing dist/* || echo "::warning::PyPI publish failed or version already published."
@@ -173,7 +173,7 @@ jobs:
         if: ${{ github.event.inputs.publish == 'true' }}
         continue-on-error: true
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY || secrets.NUGET_KEY || secrets.NUGET_TOKEN }}
         run: |
           if [ -n "$NUGET_API_KEY" ]; then
             dotnet nuget push dotnet/dist/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate || echo "::warning::NuGet publish failed or version already published."
