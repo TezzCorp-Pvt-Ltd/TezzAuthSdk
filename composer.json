@@ -1,0 +1,28 @@
+{
+  "name": "tezz/auth-sdk",
+  "description": "Official PHP SDK for Tezz Auth",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "TezzCorp Pvt. Ltd.",
+      "email": "dev@tezzcorp.com"
+    }
+  ],
+  "homepage": "https://account.tezzcorp.com",
+  "support": {
+    "issues": "https://github.com/TezzCorp-Pvt-Ltd/TezzAuthSdk/issues",
+    "source": "https://github.com/TezzCorp-Pvt-Ltd/TezzAuthSdk"
+  },
+  "require": {
+    "php": ">=8.1",
+    "ext-openssl": "*",
+    "ext-curl": "*",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tezz\\Auth\\": "php/src/"
+    }
+  }
+}

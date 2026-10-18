@@ -1,0 +1,6 @@
+# Exclude non-PHP SDK directories from Composer archive exports
+/npm export-ignore
+/python export-ignore
+/dotnet export-ignore
+/java export-ignore
+/.github export-ignore
