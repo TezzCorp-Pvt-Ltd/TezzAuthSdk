@@ -61,12 +61,33 @@ jobs:
           retention-days: 7
 
       - name: Publish to NPM Registry
-        if: ${{ github.event.inputs.publish == 'true' && env.NPM_TOKEN != '' }}
+        if: ${{ github.event.inputs.publish == 'true' }}
         continue-on-error: true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm publish dist/*.tgz --access public || echo "::warning::NPM publish failed or version already published."
+          if [ -n "$NODE_AUTH_TOKEN" ]; then
+            npm publish dist/*.tgz --access public || echo "::warning::NPM publish failed or version already published."
+          else
+            echo "::warning::NPM_TOKEN secret not provided. Skipping public NPM publish."
+          fi
+
+      - name: Publish to GitHub Packages (NPM)
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cp package.json package.json.bak
+          node -e '
+            const pkg = require("./package.json");
+            pkg.name = "@tezzcorp-pvt-ltd/tezz-auth-sdk";
+            pkg.publishConfig = { registry: "https://npm.pkg.github.com" };
+            require("fs").writeFileSync("./package.json", JSON.stringify(pkg, null, 2));
+          '
+          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" > .npmrc
+          npm publish || echo "::warning::GitHub Packages NPM publish failed or version already exists."
+          mv package.json.bak package.json
+          rm -f .npmrc
 
   # ─── 2. Python (PyPI) ─────────────────────────────────────────────────────────
   build-python:
@@ -105,13 +126,17 @@ jobs:
           retention-days: 7
 
       - name: Publish to PyPI
-        if: ${{ github.event.inputs.publish == 'true' && env.TWINE_PASSWORD != '' }}
+        if: ${{ github.event.inputs.publish == 'true' }}
         continue-on-error: true
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          twine upload --verbose --skip-existing dist/* || echo "::warning::PyPI publish failed or version already published."
+          if [ -n "$TWINE_PASSWORD" ]; then
+            twine upload --verbose --skip-existing dist/* || echo "::warning::PyPI publish failed or version already published."
+          else
+            echo "::warning::PYPI_API_TOKEN secret not provided. Skipping PyPI publish."
+          fi
 
   # ─── 3. .NET C# (NuGet) ───────────────────────────────────────────────────────
   build-dotnet:
@@ -145,12 +170,16 @@ jobs:
           retention-days: 7
 
       - name: Publish to NuGet.org
-        if: ${{ github.event.inputs.publish == 'true' && env.NUGET_API_KEY != '' }}
+        if: ${{ github.event.inputs.publish == 'true' }}
         continue-on-error: true
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
-          dotnet nuget push dotnet/dist/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate || echo "::warning::NuGet publish failed or version already published."
+          if [ -n "$NUGET_API_KEY" ]; then
+            dotnet nuget push dotnet/dist/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate || echo "::warning::NuGet publish failed or version already published."
+          else
+            echo "::warning::NUGET_API_KEY secret not provided. Skipping NuGet.org publish."
+          fi
 
       - name: Publish to GitHub Packages (NuGet)
         continue-on-error: true
