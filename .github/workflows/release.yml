@@ -208,10 +208,40 @@ jobs:
           path: java/standard/target/*.jar
           retention-days: 7
 
-  # ─── 6. GitHub Release with Consolidated Artifacts ───────────────────────────
+  # ─── 6. Android (AAR Library) ────────────────────────────────────────────────
+  build-android:
+    name: Build Android AAR Library
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: java/android
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build Android AAR Library
+        run: gradle assembleRelease
+
+      - name: Upload Android AAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-sdk-aar
+          path: java/android/build/outputs/aar/*.aar
+          retention-days: 7
+
+  # ─── 7. GitHub Release with Consolidated Artifacts ───────────────────────────
   release:
     name: Create GitHub Release
-    needs: [build-npm, build-python, build-dotnet, build-php, build-java]
+    needs: [build-npm, build-python, build-dotnet, build-php, build-java, build-android]
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.create_github_release == 'true' }}
     steps:
@@ -226,7 +256,7 @@ jobs:
       - name: Consolidate distribution assets
         run: |
           mkdir -p dist-all
-          find release-artifacts/ -type f \( -name "*.tgz" -o -name "*.whl" -o -name "*.tar.gz" -o -name "*.nupkg" -o -name "*.zip" -o -name "*.jar" \) -exec cp {} dist-all/ \;
+          find release-artifacts/ -type f \( -name "*.tgz" -o -name "*.whl" -o -name "*.tar.gz" -o -name "*.nupkg" -o -name "*.zip" -o -name "*.jar" -o -name "*.aar" \) -exec cp {} dist-all/ \;
           echo "Consolidated assets for release:"
           ls -lah dist-all/
 
@@ -249,6 +279,7 @@ jobs:
             - **.NET C# (NuGet)**: Package (`.nupkg`) targeting .NET 8.0 LTS and .NET 10.0
             - **PHP (Composer)**: Distribution `.zip`
             - **Java Standard (Maven)**: Pre-compiled `.jar`
+            - **Android (AAR)**: Pre-compiled `.aar` library
 
             ### License
             MIT License - Copyright (c) 2026 TezzCorp Pvt. Ltd.
