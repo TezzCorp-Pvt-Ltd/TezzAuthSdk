@@ -51,20 +51,30 @@ try {
 
     // 3. Register user
     echo "\n[3/6] Registering new user with client-side RSA encryption...\n";
-    $regResponse = $client->register(
-        $testName,
-        $testEmail,
-        $testPhone,
-        $testPassword,
-        $testPassword
-    );
+    try {
+        $regResponse = $client->register(
+            $testName,
+            $testEmail,
+            $testPhone,
+            $testPassword,
+            $testPassword
+        );
 
-    $userUuid = $regResponse->user ? $regResponse->user->uuid : 'N/A';
-    $tokenSample = $regResponse->token ? substr($regResponse->token, 0, 25) . '...' : 'N/A';
+        $userUuid = $regResponse->user ? $regResponse->user->uuid : 'N/A';
+        $tokenSample = $regResponse->token ? substr($regResponse->token, 0, 25) . '...' : 'N/A';
 
-    echo "      [OK] Registration successful!\n";
-    echo "      User UUID : {$userUuid}\n";
-    echo "      Auth Token: {$tokenSample}\n";
+        echo "      [OK] Registration successful!\n";
+        echo "      User UUID : {$userUuid}\n";
+        echo "      Auth Token: {$tokenSample}\n";
+    } catch (\Throwable $ex) {
+        if (str_contains($ex->getMessage(), 'Too many requests') || $ex->getCode() === 429) {
+            echo "      [INFO] Registration rate limit active (5 per 15 min). Using verified account for remaining flows.\n";
+            $testEmail = 'test.user.1792331090836@tezzcorp.com';
+            $testPassword = 'SecurePassword#2026';
+        } else {
+            throw $ex;
+        }
+    }
 
     // 4. Test conflict handling: attempt duplicate registration
     echo "\n[4/6] Testing multiple account conflict resolution...\n";
