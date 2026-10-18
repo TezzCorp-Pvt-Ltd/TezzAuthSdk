@@ -226,4 +226,4 @@ sdk/
 
 ## License
 
-MIT License - Copyright (c) 2026 TezzCorp Pvt. Ltd.
+MIT License - Copyright (c) 2026 TezzCorp Private Limited.
