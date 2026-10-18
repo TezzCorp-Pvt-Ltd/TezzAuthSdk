@@ -3,7 +3,7 @@
 This directory contains standalone, production-ready test projects demonstrating the official Tezz Auth client libraries across all supported programming languages and application platforms.
 
 Every example showcases end-to-end integration:
-- Initializing the client with the default production endpoint (`https://account.tezzcorp.com`) or custom endpoint (`http://localhost:3000`)
+- Initializing the client with the default production endpoint (`https://account.tezzcorp.com`) or custom endpoint via `TEZZ_AUTH_URL`
 - Checking username/email/phone availability
 - Client-side RSA-OAEP password encryption
 - User registration and authentication
@@ -30,17 +30,16 @@ All test projects strictly install and resolve from their official published reg
 
 ## Environment Configuration
 
-All test projects support pointing to either the central production service or a local instance:
+All test projects connect by default to the central production identity service:
 
-- **Production (Default)**: `https://account.tezzcorp.com`
-- **Local Development**: `http://localhost:3000`
+- **Default Production Endpoint**: `https://account.tezzcorp.com`
 
-Set the `TEZZ_AUTH_URL` environment variable to override the target host across any example:
+To point an example to a custom staging or private cluster endpoint, set the optional `TEZZ_AUTH_URL` environment variable:
 
 ```bash
-# Windows PowerShell
-$env:TEZZ_AUTH_URL="http://localhost:3000"
+# Windows PowerShell (Optional custom URL)
+$env:TEZZ_AUTH_URL="https://staging.account.tezzcorp.com"
 
-# Linux / macOS
-export TEZZ_AUTH_URL="http://localhost:3000"
+# Linux / macOS (Optional custom URL)
+export TEZZ_AUTH_URL="https://staging.account.tezzcorp.com"
 ```

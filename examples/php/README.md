@@ -14,20 +14,20 @@ composer install
 ---
 
 ## Running the Example
-
-### Against Production (`https://account.tezzcorp.com`)
-```bash
-php example.php
-```
-
-### Against Local Dev Server (`http://localhost:3000`)
-```bash
-# Windows PowerShell
-$env:TEZZ_AUTH_URL="http://localhost:3000"; php example.php
-
-# Linux / macOS
-TEZZ_AUTH_URL="http://localhost:3000" php example.php
-```
+ 
+ Run against production (`https://account.tezzcorp.com`):
+ ```bash
+ php example.php
+ ```
+ 
+ To point to a custom endpoint, specify `TEZZ_AUTH_URL`:
+ ```bash
+ # Windows PowerShell
+ $env:TEZZ_AUTH_URL="https://staging.account.tezzcorp.com"; php example.php
+ 
+ # Linux / macOS
+ TEZZ_AUTH_URL="https://staging.account.tezzcorp.com" php example.php
+ ```
 
 ---
 

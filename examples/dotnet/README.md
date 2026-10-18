@@ -20,20 +20,20 @@ dotnet add package Tezz.Auth --version 1.1.0
 ---
 
 ## Running the Example
-
-### Against Production (`https://account.tezzcorp.com`)
-```bash
-dotnet run
-```
-
-### Against Local Dev Server (`http://localhost:3000`)
-```bash
-# Windows PowerShell
-$env:TEZZ_AUTH_URL="http://localhost:3000"; dotnet run
-
-# Linux / macOS
-TEZZ_AUTH_URL="http://localhost:3000" dotnet run
-```
+ 
+ Run the application against production (`https://account.tezzcorp.com`):
+ ```bash
+ dotnet run
+ ```
+ 
+ To point to a custom endpoint, specify `TEZZ_AUTH_URL`:
+ ```bash
+ # Windows PowerShell
+ $env:TEZZ_AUTH_URL="https://staging.account.tezzcorp.com"; dotnet run
+ 
+ # Linux / macOS
+ TEZZ_AUTH_URL="https://staging.account.tezzcorp.com" dotnet run
+ ```
 
 ---
 

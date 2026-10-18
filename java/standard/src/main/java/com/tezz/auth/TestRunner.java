@@ -14,7 +14,7 @@ public class TestRunner {
             throw new RuntimeException("DEFAULT_BASE_URL mismatch in TezzAuthClient");
         }
 
-        String testUrl = System.getenv("TEZZ_AUTH_URL") != null ? System.getenv("TEZZ_AUTH_URL") : "http://localhost:3000";
+        String testUrl = System.getenv("TEZZ_AUTH_URL") != null ? System.getenv("TEZZ_AUTH_URL") : TezzAuthClient.DEFAULT_BASE_URL;
         TezzAuthClient client = new TezzAuthClient(testUrl);
         long timestamp = System.currentTimeMillis();
         String testEmail = "java.sdk." + timestamp + "@tezz.com";

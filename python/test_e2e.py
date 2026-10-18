@@ -15,7 +15,7 @@ def main() -> None:
 
     assert TezzAuthClient.DEFAULT_BASE_URL == "https://account.tezzcorp.com"
     import os
-    base_url = os.getenv("TEZZ_AUTH_URL", "http://localhost:3000")
+    base_url = os.getenv("TEZZ_AUTH_URL", TezzAuthClient.DEFAULT_BASE_URL)
     client = TezzAuthClient(base_url=base_url)
     timestamp = int(time.time() * 1000)
     test_email = f"python.sdk.{timestamp}@tezz.com"

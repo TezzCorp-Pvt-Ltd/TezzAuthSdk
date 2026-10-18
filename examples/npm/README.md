@@ -20,20 +20,20 @@ npm install @tezzcorp/auth-sdk@latest
 ---
 
 ## Running the Example
-
-### Against Production (`https://account.tezzcorp.com`)
-```bash
-npm start
-```
-
-### Against Local Dev Server (`http://localhost:3000`)
-```bash
-# Windows PowerShell
-$env:TEZZ_AUTH_URL="http://localhost:3000"; npm start
-
-# Linux / macOS
-TEZZ_AUTH_URL="http://localhost:3000" npm start
-```
+ 
+ Run against production (`https://account.tezzcorp.com`):
+ ```bash
+ npm start
+ ```
+ 
+ To point to a custom endpoint, specify `TEZZ_AUTH_URL`:
+ ```bash
+ # Windows PowerShell
+ $env:TEZZ_AUTH_URL="https://staging.account.tezzcorp.com"; npm start
+ 
+ # Linux / macOS
+ TEZZ_AUTH_URL="https://staging.account.tezzcorp.com" npm start
+ ```
 
 ---
 

@@ -31,20 +31,20 @@ pip install tezz-auth>=1.0.0
 ---
 
 ## Running the Example
-
-### Against Production (`https://account.tezzcorp.com`)
-```bash
-python main.py
-```
-
-### Against Local Dev Server (`http://localhost:3000`)
-```bash
-# Windows PowerShell
-$env:TEZZ_AUTH_URL="http://localhost:3000"; python main.py
-
-# Linux / macOS
-TEZZ_AUTH_URL="http://localhost:3000" python main.py
-```
+ 
+ Run against production (`https://account.tezzcorp.com`):
+ ```bash
+ python main.py
+ ```
+ 
+ To point to a custom endpoint, specify `TEZZ_AUTH_URL`:
+ ```bash
+ # Windows PowerShell
+ $env:TEZZ_AUTH_URL="https://staging.account.tezzcorp.com"; python main.py
+ 
+ # Linux / macOS
+ TEZZ_AUTH_URL="https://staging.account.tezzcorp.com" python main.py
+ ```
 
 ---
 

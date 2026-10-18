@@ -11,21 +11,21 @@ This is a standalone Maven test project demonstrating how to integrate and use t
 ---
 
 ## Build and Run
-
-### Against Production (`https://account.tezzcorp.com`)
-```bash
-cd sdk/examples/java-standard
-mvn clean compile exec:java
-```
-
-### Against Local Dev Server (`http://localhost:3000`)
-```bash
-# Windows PowerShell
-$env:TEZZ_AUTH_URL="http://localhost:3000"; mvn clean compile exec:java
-
-# Linux / macOS
-TEZZ_AUTH_URL="http://localhost:3000" mvn clean compile exec:java
-```
+ 
+ Run against the production endpoint (`https://account.tezzcorp.com`):
+ ```bash
+ cd sdk/examples/java-standard
+ mvn clean compile exec:java
+ ```
+ 
+ To point to a custom endpoint, specify `TEZZ_AUTH_URL`:
+ ```bash
+ # Windows PowerShell
+ $env:TEZZ_AUTH_URL="https://staging.account.tezzcorp.com"; mvn clean compile exec:java
+ 
+ # Linux / macOS
+ TEZZ_AUTH_URL="https://staging.account.tezzcorp.com" mvn clean compile exec:java
+ ```
 
 ---
 

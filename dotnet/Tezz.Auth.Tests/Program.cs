@@ -18,7 +18,7 @@ public class Program
             throw new Exception("DefaultBaseUrl mismatch in TezzAuthClient");
         }
 
-        string testUrl = Environment.GetEnvironmentVariable("TEZZ_AUTH_URL") ?? "http://localhost:3000";
+        string testUrl = Environment.GetEnvironmentVariable("TEZZ_AUTH_URL") ?? TezzAuthClient.DefaultBaseUrl;
         using var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Add("X-Forwarded-For", $"198.51.100.{new Random().Next(10, 250)}");
         using var client = new TezzAuthClient(testUrl, httpClient);

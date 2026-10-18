@@ -27,7 +27,7 @@ if (TezzAuthClient::DEFAULT_BASE_URL !== 'https://account.tezzcorp.com') {
     throw new Exception("DEFAULT_BASE_URL does not match expected domain");
 }
 
-$baseUrl = getenv('TEZZ_AUTH_URL') ?: 'http://localhost:3000';
+$baseUrl = getenv('TEZZ_AUTH_URL') ?: TezzAuthClient::DEFAULT_BASE_URL;
 $client = new TezzAuthClient([
     'base_url' => $baseUrl,
     'headers'  => ['X-Forwarded-For: 198.51.100.42'],
