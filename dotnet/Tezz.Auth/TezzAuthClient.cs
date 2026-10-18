@@ -248,6 +248,64 @@ public class TezzAuthClient : IDisposable
             cancellationToken);
     }
 
+    /// <summary>
+    /// Retrieves current verified user profile using bearer token.
+    /// </summary>
+    public async Task<AuthResponse> GetProfileAsync(string token, CancellationToken cancellationToken = default)
+    {
+        var requestUrl = $"{_baseUrl}/api/v1/auth/me";
+        using var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+        request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        HttpResponseMessage response;
+        try
+        {
+            response = await _httpClient.SendAsync(request, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            throw new TezzAuthException($"Network error connecting to {requestUrl}: {ex.Message}", 500);
+        }
+
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new TezzAuthException($"Failed to retrieve profile: HTTP {(int)response.StatusCode}", (int)response.StatusCode, responseContent);
+        }
+
+        return JsonSerializer.Deserialize<AuthResponse>(responseContent)
+            ?? throw new TezzAuthException("Empty response from profile endpoint.", 500);
+    }
+
+    /// <summary>
+    /// Cancels pending 14-day account deletion.
+    /// </summary>
+    public async Task<AuthResponse> CancelDeletionAsync(string token, CancellationToken cancellationToken = default)
+    {
+        var requestUrl = $"{_baseUrl}/api/v1/auth/cancel-deletion";
+        using var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+        request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        HttpResponseMessage response;
+        try
+        {
+            response = await _httpClient.SendAsync(request, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            throw new TezzAuthException($"Network error connecting to {requestUrl}: {ex.Message}", 500);
+        }
+
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new TezzAuthException($"Failed to cancel deletion: HTTP {(int)response.StatusCode}", (int)response.StatusCode, responseContent);
+        }
+
+        return JsonSerializer.Deserialize<AuthResponse>(responseContent)
+            ?? throw new TezzAuthException("Empty response from cancel deletion endpoint.", 500);
+    }
+
     private async Task<T> SendRequestAsync<T>(
         HttpMethod method,
         string endpoint,

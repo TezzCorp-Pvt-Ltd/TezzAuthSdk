@@ -187,6 +187,55 @@ public class TezzAuthClient {
         });
     }
 
+    public void getProfile(String token, TezzCallback<AuthResponse> callback) {
+        executor.execute(() -> {
+            Request request = new Request.Builder()
+                .url(baseUrl + "/api/v1/auth/me")
+                .header("Authorization", "Bearer " + token)
+                .get()
+                .build();
+
+            try (Response response = okHttpClient.newCall(request).execute()) {
+                String respBody = response.body() != null ? response.body().string() : "{}";
+                AuthResponse authResp = gson.fromJson(respBody, AuthResponse.class);
+                if (!response.isSuccessful()) {
+                    throw new TezzAuthException(
+                        authResp.getMessage() != null ? authResp.getMessage() : "HTTP " + response.code(),
+                        response.code()
+                    );
+                }
+                postSuccess(callback, authResp);
+            } catch (Exception e) {
+                postError(callback, e instanceof TezzAuthException ? (TezzAuthException) e : new TezzAuthException(e.getMessage()));
+            }
+        });
+    }
+
+    public void cancelDeletion(String token, TezzCallback<AuthResponse> callback) {
+        executor.execute(() -> {
+            RequestBody emptyBody = RequestBody.create("{}", MediaType.parse("application/json; charset=utf-8"));
+            Request request = new Request.Builder()
+                .url(baseUrl + "/api/v1/auth/cancel-deletion")
+                .header("Authorization", "Bearer " + token)
+                .post(emptyBody)
+                .build();
+
+            try (Response response = okHttpClient.newCall(request).execute()) {
+                String respBody = response.body() != null ? response.body().string() : "{}";
+                AuthResponse authResp = gson.fromJson(respBody, AuthResponse.class);
+                if (!response.isSuccessful()) {
+                    throw new TezzAuthException(
+                        authResp.getMessage() != null ? authResp.getMessage() : "HTTP " + response.code(),
+                        response.code()
+                    );
+                }
+                postSuccess(callback, authResp);
+            } catch (Exception e) {
+                postError(callback, e instanceof TezzAuthException ? (TezzAuthException) e : new TezzAuthException(e.getMessage()));
+            }
+        });
+    }
+
     private void executePost(String endpoint, Map<String, String> bodyMap, TezzCallback<AuthResponse> callback) {
         try {
             AuthResponse res = executePostSync(endpoint, bodyMap);

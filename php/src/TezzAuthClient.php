@@ -145,4 +145,28 @@ class TezzAuthClient
 
         return Response::fromArray($data);
     }
+
+    /**
+     * Retrieve current user profile using Bearer JWT token
+     */
+    public function getProfile(string $token): Response
+    {
+        $data = $this->http->request('/api/v1/auth/me', 'GET', null, [
+            "Authorization: Bearer {$token}"
+        ]);
+
+        return Response::fromArray($data);
+    }
+
+    /**
+     * Cancel pending 14-day account deletion
+     */
+    public function cancelDeletion(string $token): Response
+    {
+        $data = $this->http->request('/api/v1/auth/cancel-deletion', 'POST', [], [
+            "Authorization: Bearer {$token}"
+        ]);
+
+        return Response::fromArray($data);
+    }
 }

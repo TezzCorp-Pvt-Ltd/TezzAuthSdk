@@ -220,10 +220,25 @@ sdk/
 ├── npm/             # JavaScript / TypeScript NPM package
 ├── python/          # Python PyPI package
 ├── php/             # PHP Composer package
-└── java/
-    ├── standard/    # Java 11+ Maven package
-    └── android/     # Android AAR library
+├── java/
+│   ├── standard/    # Java 11+ Maven package
+│   └── android/     # Android AAR library
+├── examples/        # Standalone test/example projects for all platforms
+└── scripts/         # Release version inspection & management engine
 ```
+
+---
+
+## Example Projects
+
+Full, standalone test projects demonstrating end-to-end integration across all supported platforms are located in [examples/](examples/):
+
+- **[JavaScript / Node.js](examples/npm/)**: NPM package testing registration, conflict handling, and profile fetch.
+- **[Python](examples/python/)**: Python script with client-side RSA encryption and verified profile retrieval.
+- **[.NET (C#)](examples/dotnet/)**: Async C# console application targeting .NET 8.0 / .NET 10.0.
+- **[Java Standard](examples/java-standard/)**: Maven project showcasing standard Java 11+ integration.
+- **[Android App](examples/android/)**: Complete Android Gradle application with UI buttons and asynchronous callbacks.
+- **[PHP (Composer)](examples/php/)**: PHP 8.1+ script utilizing Composer path repository.
 
 ---
 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tezz Auth Android Example"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnCheckAvailability"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. Check Availability"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2. Register Account (RSA Encrypted)"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3. Login with Credentials"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnGetProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="4. Fetch Verified Profile"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#f5f5f5"
+        android:padding="12dp"
+        android:typeface="monospace"
+        android:textSize="12sp"
+        android:text="Status output will appear here..." />
+
+</LinearLayout>

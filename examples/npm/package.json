@@ -1,0 +1,18 @@
+{
+  "name": "tezz-auth-npm-example",
+  "version": "1.0.0",
+  "description": "Standalone Node.js test project demonstrating @tezzcorp/auth-sdk",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node index.js"
+  },
+  "dependencies": {
+    "@tezzcorp/auth-sdk": "file:../../npm"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "TezzCorp Pvt. Ltd.",
+  "license": "MIT"
+}
